@@ -39,7 +39,7 @@ export default function Home() {
       </section>
       <section className="h-screen bg-palette-1 flex gap-4 flex-row justify-center items-center px-4 snap-start">
         {cardItems.map((item) => (
-          <div className="bg-white  shadow-xl h-2/3 w-1/3 text-center hover:scale-95 hover:contrast-125 transition ease-in-out flex justify-center place-items-center ">
+          <div className="bg-white  shadow-xl h-2/3 w-1/3 text-center saturate-50 hover:saturate-100 hover:scale-95 hover:contrast-125 transition ease-in-out flex justify-center place-items-center ">
             <p className="absolute  text text-white">{item.alt}</p>
             <img src={item.src} className="object-cover size-full " />
           </div>
