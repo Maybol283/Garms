@@ -1,0 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .title-text {
+    @apply text-6xl md:text-7xl lg:text-8xl;
+  }
+  .subtitle-text {
+    @apply text-4xl md:text-6xl lg:text-7xl;
+  }
+  .text {
+    @apply text-lg md:text-xl lg:text-2xl;
+  }
+}
+
+@layer base {
+  html {
+    font-family: "Courier New", system-ui, sans-serif;
+  }
+}
+
+.bg-image {
+  height: calc(81vh); /* Adjust the height of the header accordingly */
+}
