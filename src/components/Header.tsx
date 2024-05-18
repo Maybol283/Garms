@@ -21,7 +21,7 @@ export default function Header() {
     <div className="fixed left-0 right-0 top-0 z-10">
       <header className="w-100 bg-palette-1 text-gray-600">
         <div
-          className="text-center  bg-palette-3 py-2 text-gray-900"
+          className="text-center  bg-palette-3 py-2 text-white"
           role="region"
           aria-label="Announcement"
         >
@@ -45,7 +45,7 @@ export default function Header() {
               onClick={() => setMobileMenuOpen(true)}
             >
               <span className="sr-only">Open main menu</span>
-              <Bars3Icon className="h-6 w-6" aria-hidden="true" />
+              <Bars3Icon className="h-6 w-6 mr-10" aria-hidden="true" />
             </button>
           </div>
           <div className="hidden lg:flex lg:gap-x-20 ">
@@ -59,7 +59,7 @@ export default function Header() {
               </a>
             ))}
           </div>
-          <ShoppingBagIcon className="size-6 hover:text-palette-3" />
+          <ShoppingBagIcon className="size-6 hover:text-palette-3 hidden mr-10 lg:inline-block" />
         </nav>
         <Transition
           show={mobileMenuOpen}

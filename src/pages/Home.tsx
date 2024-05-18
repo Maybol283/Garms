@@ -32,7 +32,7 @@ export default function Home() {
     <main className="snap-y snap-mandatory">
       <section className="snap-start snap-always">
         <div className="overflow-hidden h-[100vh] w-full flex items-center justify-center">
-          <button className="mt-32 text p-4 bg-palette-1 hover:bg-palette-2 rounded absolute text-gray-900">
+          <button className="mt-32 text p-4 bg-palette-1 hover:bg-palette-3 hover:text-white rounded absolute text-gray-900">
             THE COLLECTION
           </button>
           <img
@@ -51,7 +51,7 @@ export default function Home() {
           </div>
         ))}
       </section>
-      <section className="h-screen bg-palette-1">
+      <section role="About" className="pb-32 bg-palette-1">
         <div className="sm:min-h-[330px] md:min-h-[440px] bg-palette-3 text-center text-white px-2 sm:px-12 lg:px-28">
           <h1 className="pt-10 lg:pt-20 text-4xl font-bold">
             Bringing Your Style
@@ -72,7 +72,7 @@ export default function Home() {
           </div>
         </div>
       </section>
-      <section className="h-screen bg-palette-1">
+      <section role="Carousel Reviews" className="h-[80vh] bg-palette-1">
         <div className="">
           <Carousel
             className="rounded-xl h-[60vh] w-[80vw] mx-auto"
