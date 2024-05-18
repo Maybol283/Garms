@@ -1,12 +1,17 @@
 import { useState, Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import {
+  Bars3Icon,
+  XMarkIcon,
+  ShoppingBagIcon,
+} from "@heroicons/react/24/outline";
 import GarmsLogo from "../assets/Garms-Logo.tsx";
 
 const navigation = [
   { name: "Shirts", href: "#Shirts" },
   { name: "Trousers", href: "#Trousers" },
   { name: "Accessories", href: "#Accessories" },
+  { name: "About", href: "#About" },
 ];
 
 export default function Header() {
@@ -27,11 +32,11 @@ export default function Header() {
           </div>
         </div>
         <nav
-          className="mx-auto flex max-w-7xl items-center justify-between p-6"
+          className="mx-auto flex max-w-7xl items-center justify-between"
           aria-label="Global"
         >
           <a href="#intropage ">
-            <GarmsLogo className="size-32 -m-10 hover:text-palette-3" />
+            <GarmsLogo className="size-32 -m-4 hover:text-palette-3" />
           </a>
           <div className="flex lg:hidden">
             <button
@@ -43,17 +48,18 @@ export default function Header() {
               <Bars3Icon className="h-6 w-6" aria-hidden="true" />
             </button>
           </div>
-          <div className="hidden lg:flex lg:gap-x-12">
+          <div className="hidden lg:flex lg:gap-x-20 ">
             {navigation.map((item) => (
               <a
-                key={item.name}
+                key={item.href}
                 href={item.href}
-                className="text-lg font-semibold leading-6"
+                className="text-lg font-semibold align-bottom hover:text-palette-3"
               >
                 {item.name}
               </a>
             ))}
           </div>
+          <ShoppingBagIcon className="size-6 hover:text-palette-3" />
         </nav>
         <Transition
           show={mobileMenuOpen}
