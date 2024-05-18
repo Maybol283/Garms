@@ -1,7 +1,8 @@
 import { useState, Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
-import GarmsLogo from "../assets/";
+import GarmsLogo from "../assets/Garms-Logo.tsx";
+
 const navigation = [
   { name: "Shirts", href: "#Shirts" },
   { name: "Trousers", href: "#Trousers" },
@@ -15,7 +16,7 @@ export default function Header() {
     <div className="fixed left-0 right-0 top-0 z-10">
       <header className="w-100 bg-palette-1 text-gray-600">
         <div
-          className="text-center bg-palette-3 py-2 text-gray-900"
+          className="text-center  bg-palette-3 py-2 text-gray-900"
           role="region"
           aria-label="Announcement"
         >
@@ -29,7 +30,9 @@ export default function Header() {
           className="mx-auto flex max-w-7xl items-center justify-between p-6"
           aria-label="Global"
         >
-          <a href="#intropage "></a>
+          <a href="#intropage ">
+            <GarmsLogo className="size-32 -m-10 hover:text-palette-3" />
+          </a>
           <div className="flex lg:hidden">
             <button
               type="button"
