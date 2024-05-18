@@ -1,7 +1,7 @@
 import { useState, Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
-
+import GarmsLogo from "../assets/";
 const navigation = [
   { name: "Shirts", href: "#Shirts" },
   { name: "Trousers", href: "#Trousers" },
@@ -12,8 +12,8 @@ export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <div className="sticky left-0 right-0 top-0 z-10">
-      <header className="w-100  bg-palette-1 text-gray-600">
+    <div className="fixed left-0 right-0 top-0 z-10">
+      <header className="w-100 bg-palette-1 text-gray-600">
         <div
           className="text-center bg-palette-3 py-2 text-gray-900"
           role="region"
@@ -29,11 +29,7 @@ export default function Header() {
           className="mx-auto flex max-w-7xl items-center justify-between p-6"
           aria-label="Global"
         >
-          <a href="#intropage ">
-            <div className="lg:flex lg:flex-1 hidden">
-              <h1 className="bg-palette-1 rounded-3xl p-3 font-bold ">GV</h1>
-            </div>
-          </a>
+          <a href="#intropage "></a>
           <div className="flex lg:hidden">
             <button
               type="button"
