@@ -3,7 +3,7 @@ import { Dialog, Disclosure, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { ChevronDownIcon, PlusIcon } from "@heroicons/react/20/solid";
 
-const breadcrumbs = [{ id: 1, name: "Men", href: "#" }];
+const breadcrumbs = [{ id: 1, name: "Shop", href: "#" }];
 const filters = [
   {
     id: "color",
@@ -21,11 +21,10 @@ const filters = [
     id: "category",
     name: "Category",
     options: [
-      { value: "new-arrivals", label: "All New Arrivals" },
-      { value: "tees", label: "Tees" },
-      { value: "crewnecks", label: "Crewnecks" },
-      { value: "sweatshirts", label: "Sweatshirts" },
-      { value: "pants-shorts", label: "Pants & Shorts" },
+      { value: "Shirts", label: "Shirts" },
+      { value: "Shoes", label: "Shoes" },
+      { value: "Trousers", label: "Trousers" },
+      { value: "Accessories", label: "Accessories" },
     ],
   },
   {
@@ -54,6 +53,9 @@ const products = [
       "https://tailwindui.com/img/ecommerce-images/category-page-02-image-card-01.jpg",
     imageAlt:
       "Eight shirts arranged on table in black, olive, grey, blue, white, red, mustard, and green.",
+    category: "Shirts",
+    sizes: ["XL"],
+    colors: ["Purple"],
   },
   {
     id: 2,
@@ -66,8 +68,25 @@ const products = [
     imageSrc:
       "https://tailwindui.com/img/ecommerce-images/category-page-02-image-card-02.jpg",
     imageAlt: "Front of plain black t-shirt.",
+    category: "Shirts",
+    sizes: ["xl"],
+    colors: ["purple"],
   },
-  // More products...
+  {
+    id: 3,
+    name: "Watch",
+    href: "#",
+    price: "$32",
+    description:
+      "Look like a visionary CEO and wear the same black t-shirt every day.",
+    options: "Black",
+    imageSrc:
+      "https://images.unsplash.com/photo-1524805444758-089113d48a6d?q=80&w=1888&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    imageAlt: "Front of plain black t-shirt.",
+    category: "Accessories",
+    sizes: ["xL"],
+    colors: ["Purple"],
+  },
 ];
 
 function classNames(...classes: (string | undefined)[]) {
@@ -76,6 +95,31 @@ function classNames(...classes: (string | undefined)[]) {
 
 export default function Shop() {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
+  const [Filters, setFilters] = useState<Set<string>>(new Set());
+
+  function updateFilters(checked: boolean, filters: string) {
+    if (checked) setFilters((prev) => new Set(prev).add(filters));
+    if (!checked)
+      setFilters((prev) => {
+        const next = new Set(prev);
+        next.delete(filters);
+        return next;
+      });
+    console.log(Filters);
+  }
+  console.log(Filters);
+
+  const filteredProducts = products.filter((product) => {
+    const matchesCategory = Filters.size === 0 || Filters.has(product.category);
+    const matchesSizes =
+      Filters.size === 0 || product.sizes.some((size) => Filters.has(size));
+    const matchesColors =
+      Filters.size === 0 || product.colors.some((color) => Filters.has(color));
+
+    return matchesCategory + matchesSizes + matchesColors;
+  });
+
+  console.log(filteredProducts);
 
   return (
     <div className="bg-palette-1 mt-12">
@@ -162,6 +206,12 @@ export default function Shop() {
                                       name={`${section.id}[]`}
                                       defaultValue={option.value}
                                       type="checkbox"
+                                      onChange={(e) =>
+                                        updateFilters(
+                                          e.target.checked,
+                                          option.value
+                                        )
+                                      }
                                       className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
                                     />
                                     <label
@@ -185,51 +235,10 @@ export default function Shop() {
           </Dialog>
         </Transition.Root>
 
-        <div className="border-b border-gray-200 pt-20">
-          <nav
-            aria-label="Breadcrumb"
-            className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"
-          >
-            <ol role="list" className="flex items-center space-x-4 py-4">
-              {breadcrumbs.map((breadcrumb) => (
-                <li key={breadcrumb.id}>
-                  <div className="flex items-center">
-                    <a
-                      href={breadcrumb.href}
-                      className="mr-4 text-sm font-medium text-gray-900"
-                    >
-                      {breadcrumb.name}
-                    </a>
-                    <svg
-                      viewBox="0 0 6 20"
-                      aria-hidden="true"
-                      className="h-5 w-auto text-gray-300"
-                    >
-                      <path
-                        d="M4.878 4.34H3.551L.27 16.532h1.327l3.281-12.19z"
-                        fill="currentColor"
-                      />
-                    </svg>
-                  </div>
-                </li>
-              ))}
-              <li className="text-sm">
-                <a
-                  href="#"
-                  aria-current="page"
-                  className="font-medium text-gray-500 hover:text-gray-600"
-                >
-                  New Arrivals
-                </a>
-              </li>
-            </ol>
-          </nav>
-        </div>
-
         <main className="mx-auto max-w-2xl px-4 lg:max-w-7xl lg:px-8">
           <div className="border-b border-gray-200 pb-10 pt-24">
             <h1 className="text-4xl font-bold tracking-tight text-gray-900">
-              New Arrivals
+              Shop
             </h1>
             <p className="mt-4 text-base text-gray-500">
               Checkout out the latest release of Basic Tees, new and improved
@@ -277,6 +286,9 @@ export default function Shop() {
                                 name={`${section.id}[]`}
                                 defaultValue={option.value}
                                 type="checkbox"
+                                onChange={(e) =>
+                                  updateFilters(e.target.checked, option.value)
+                                }
                                 className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
                               />
                               <label
@@ -303,11 +315,11 @@ export default function Shop() {
                 Products
               </h2>
 
-              <div className="grid grid-cols-1 gap-y-4 sm:grid-cols-2 sm:gap-x-6 sm:gap-y-10 lg:gap-x-8 xl:grid-cols-3">
-                {products.map((product) => (
+              <div className="transition-all ease-in-out grid grid-cols-1 gap-y-4 sm:grid-cols-2 sm:gap-x-6 sm:gap-y-10 lg:gap-x-8 xl:grid-cols-3">
+                {filteredProducts.map((product) => (
                   <div
                     key={product.id}
-                    className="group relative flex flex-col overflow-hidden rounded-lg border border-gray-200 bg-white"
+                    className=" group relative flex flex-col overflow-hidden rounded-lg border border-gray-200 bg-white"
                   >
                     <div className="aspect-h-4 aspect-w-3 bg-gray-200 sm:aspect-none group-hover:opacity-75 sm:h-96">
                       <img
