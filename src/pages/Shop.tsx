@@ -2,90 +2,234 @@ import { Fragment, useState } from "react";
 import { Dialog, Disclosure, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { ChevronDownIcon, PlusIcon } from "@heroicons/react/20/solid";
+import { useParams } from "react-router-dom";
 
-const breadcrumbs = [{ id: 1, name: "Shop", href: "#" }];
-const filters = [
-  {
-    id: "color",
-    name: "Color",
-    options: [
-      { value: "white", label: "White" },
-      { value: "beige", label: "Beige" },
-      { value: "blue", label: "Blue" },
-      { value: "brown", label: "Brown" },
-      { value: "green", label: "Green" },
-      { value: "purple", label: "Purple" },
-    ],
-  },
-  {
-    id: "category",
-    name: "Category",
-    options: [
-      { value: "Shirts", label: "Shirts" },
-      { value: "Shoes", label: "Shoes" },
-      { value: "Trousers", label: "Trousers" },
-      { value: "Accessories", label: "Accessories" },
-    ],
-  },
-  {
-    id: "sizes",
-    name: "Sizes",
-    options: [
-      { value: "xs", label: "XS" },
-      { value: "s", label: "S" },
-      { value: "m", label: "M" },
-      { value: "l", label: "L" },
-      { value: "xl", label: "XL" },
-      { value: "2xl", label: "2XL" },
-    ],
-  },
-];
-const products = [
+interface Product {
+  id: number;
+  name: string;
+  href: string;
+  price: string;
+  description: string;
+  options: string;
+  imageSrc: string;
+  imageAlt: string;
+  sizes?: string[];
+  colors?: string[];
+  style?: string[];
+}
+
+interface CategoryData {
+  id: number;
+  category: string;
+  items: Product[];
+  filters: {
+    name: string;
+    id: string;
+    options: { value: string; label: string }[];
+  }[];
+}
+
+const products: CategoryData[] = [
   {
     id: 1,
-    name: "Basic Tee 8-Pack",
-    href: "#",
-    price: "$256",
-    description:
-      "Get the full lineup of our Basic Tees. Have a fresh shirt all week, and an extra for laundry day.",
-    options: "8 colors",
-    imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/category-page-02-image-card-01.jpg",
-    imageAlt:
-      "Eight shirts arranged on table in black, olive, grey, blue, white, red, mustard, and green.",
     category: "Shirts",
-    sizes: ["XL"],
-    colors: ["Purple"],
+    filters: [
+      {
+        id: "color",
+        name: "Color",
+        options: [
+          { value: "white", label: "White" },
+          { value: "beige", label: "Beige" },
+          { value: "blue", label: "Blue" },
+          { value: "brown", label: "Brown" },
+          { value: "green", label: "Green" },
+          { value: "purple", label: "Purple" },
+        ],
+      },
+      {
+        id: "sizes",
+        name: "Sizes",
+        options: [
+          { value: "xs", label: "XS" },
+          { value: "s", label: "S" },
+          { value: "m", label: "M" },
+          { value: "l", label: "L" },
+          { value: "xl", label: "XL" },
+          { value: "2xl", label: "2XL" },
+        ],
+      },
+    ],
+    items: [
+      {
+        id: 1,
+        name: "Basic Tee 8-Pack",
+        href: "#",
+        price: "$256",
+        description:
+          "Get the full lineup of our Basic Tees. Have a fresh shirt all week, and an extra for laundry day.",
+        options: "8 colors",
+        imageSrc:
+          "https://tailwindui.com/img/ecommerce-images/category-page-02-image-card-01.jpg",
+        imageAlt:
+          "Eight shirts arranged on table in black, olive, grey, blue, white, red, mustard, and green.",
+        sizes: ["xl", "sm"],
+        colors: ["purple", "beige"],
+      },
+      {
+        id: 2,
+        name: "Basic Tee",
+        href: "#",
+        price: "$32",
+        description:
+          "Look like a visionary CEO and wear the same black t-shirt every day.",
+        options: "Black",
+        imageSrc:
+          "https://tailwindui.com/img/ecommerce-images/category-page-02-image-card-02.jpg",
+        imageAlt: "Front of plain black t-shirt.",
+        sizes: ["xl"],
+        colors: ["purple"],
+      },
+    ],
   },
   {
     id: 2,
-    name: "Basic Tee",
-    href: "#",
-    price: "$32",
-    description:
-      "Look like a visionary CEO and wear the same black t-shirt every day.",
-    options: "Black",
-    imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/category-page-02-image-card-02.jpg",
-    imageAlt: "Front of plain black t-shirt.",
-    category: "Shirts",
-    sizes: ["xl"],
-    colors: ["purple"],
+    category: "Trousers",
+    filters: [
+      {
+        id: "color",
+        name: "Color",
+        options: [
+          { value: "white", label: "White" },
+          { value: "beige", label: "Beige" },
+          { value: "blue", label: "Blue" },
+          { value: "brown", label: "Brown" },
+          { value: "green", label: "Green" },
+          { value: "purple", label: "Purple" },
+        ],
+      },
+      {
+        id: "sizes",
+        name: "Sizes",
+        options: [
+          { value: "28", label: "28" },
+          { value: "30", label: "30" },
+          { value: "32", label: "32" },
+          { value: "34", label: "34" },
+          { value: "36", label: "36" },
+          { value: "38", label: "38" },
+        ],
+      },
+    ],
+    items: [
+      {
+        id: 1,
+        name: "TestTrousers",
+        href: "#",
+        price: "$32",
+        description:
+          "Look like a visionary CEO and wear the same black t-shirt every day.",
+        options: "Black",
+        imageSrc:
+          "https://images.unsplash.com/photo-1524805444758-089113d48a6d?q=80&w=1888&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        imageAlt: "Front of plain black t-shirt.",
+        sizes: ["34"],
+        colors: ["Purple"],
+      },
+    ],
   },
   {
     id: 3,
-    name: "Watch",
-    href: "#",
-    price: "$32",
-    description:
-      "Look like a visionary CEO and wear the same black t-shirt every day.",
-    options: "Black",
-    imageSrc:
-      "https://images.unsplash.com/photo-1524805444758-089113d48a6d?q=80&w=1888&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    imageAlt: "Front of plain black t-shirt.",
     category: "Accessories",
-    sizes: ["xL"],
-    colors: ["Purple"],
+    filters: [
+      {
+        id: "color",
+        name: "Color",
+        options: [
+          { value: "white", label: "White" },
+          { value: "beige", label: "Beige" },
+          { value: "blue", label: "Blue" },
+          { value: "brown", label: "Brown" },
+          { value: "green", label: "Green" },
+          { value: "purple", label: "Purple" },
+        ],
+      },
+      {
+        id: "style",
+        name: "Style",
+        options: [
+          { value: "watches", label: "Watches" },
+          { value: "hats", label: "Hats" },
+          { value: "belts", label: "Belts" },
+          { value: "wallets", label: "Wallets" },
+        ],
+      },
+    ],
+    items: [
+      {
+        id: 3,
+        name: "Watch",
+        href: "#",
+        price: "$32",
+        description:
+          "Look like a visionary CEO and wear the same black t-shirt every day.",
+        options: "Black",
+        imageSrc:
+          "https://images.unsplash.com/photo-1524805444758-089113d48a6d?q=80&w=1888&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        imageAlt: "Front of plain black t-shirt.",
+        colors: ["purple"],
+        style: ["watches"],
+      },
+    ],
+  },
+  {
+    id: 4,
+    category: "Shoes",
+    filters: [
+      {
+        id: "color",
+        name: "Color",
+        options: [
+          { value: "white", label: "White" },
+          { value: "beige", label: "Beige" },
+          { value: "blue", label: "Blue" },
+          { value: "brown", label: "Brown" },
+          { value: "green", label: "Green" },
+          { value: "purple", label: "Purple" },
+        ],
+      },
+      {
+        id: "sizes",
+        name: "Sizes",
+        options: [
+          { value: "3", label: "3" },
+          { value: "4", label: "4" },
+          { value: "5", label: "5" },
+          { value: "6", label: "6" },
+          { value: "7", label: "7" },
+          { value: "8", label: "8" },
+          { value: "9", label: "9" },
+          { value: "10", label: "10" },
+          { value: "11", label: "11" },
+          { value: "12", label: "12" },
+        ],
+      },
+    ],
+    items: [
+      {
+        id: 1,
+        name: "Test-Shoes",
+        href: "#",
+        price: "$32",
+        description:
+          "Look like a visionary CEO and wear the same black t-shirt every day.",
+        options: "Black",
+        imageSrc:
+          "https://images.unsplash.com/photo-1524805444758-089113d48a6d?q=80&w=1888&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        imageAlt: "Front of plain black t-shirt.",
+        sizes: ["3", "4"],
+        colors: ["Purple"],
+      },
+    ],
   },
 ];
 
@@ -94,32 +238,40 @@ function classNames(...classes: (string | undefined)[]) {
 }
 
 export default function Shop() {
+  const { category = "" } = useParams<{ category: string | undefined }>();
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const [Filters, setFilters] = useState<Set<string>>(new Set());
 
-  function updateFilters(checked: boolean, filters: string) {
-    if (checked) setFilters((prev) => new Set(prev).add(filters));
-    if (!checked)
-      setFilters((prev) => {
-        const next = new Set(prev);
-        next.delete(filters);
-        return next;
-      });
-    console.log(Filters);
+  const categoryData = products.find(
+    (product) => product.category.toLowerCase() === category.toLowerCase()
+  );
+
+  function updateFilters(checked: boolean, filter: string) {
+    setFilters((prev) => {
+      const next = new Set(prev);
+      if (checked) {
+        next.add(filter);
+      } else {
+        next.delete(filter);
+      }
+      return next;
+    });
   }
-  console.log(Filters);
 
-  const filteredProducts = products.filter((product) => {
-    const matchesCategory = Filters.size === 0 || Filters.has(product.category);
-    const matchesSizes =
-      Filters.size === 0 || product.sizes.some((size) => Filters.has(size));
-    const matchesColors =
-      Filters.size === 0 || product.colors.some((color) => Filters.has(color));
+  const filteredProducts =
+    categoryData?.items.filter((product) => {
+      const matchesSizes =
+        Filters.size === 0 ||
+        (product.sizes && product.sizes.some((size) => Filters.has(size)));
+      const matchesColors =
+        Filters.size === 0 ||
+        (product.colors && product.colors.some((color) => Filters.has(color)));
+      const matchesStyle =
+        Filters.size === 0 ||
+        (product.style && product.style.some((style) => Filters.has(style)));
 
-    return matchesCategory + matchesSizes + matchesColors;
-  });
-
-  console.log(filteredProducts);
+      return matchesSizes || matchesColors || matchesStyle;
+    }) || [];
 
   return (
     <div className="bg-palette-1 mt-12">
@@ -170,7 +322,7 @@ export default function Shop() {
 
                   {/* Filters */}
                   <form className="mt-4">
-                    {filters.map((section) => (
+                    {categoryData?.filters.map((section) => (
                       <Disclosure
                         as="div"
                         key={section.name}
@@ -238,7 +390,7 @@ export default function Shop() {
         <main className="mx-auto max-w-2xl px-4 lg:max-w-7xl lg:px-8">
           <div className="border-b border-gray-200 pb-10 pt-24">
             <h1 className="text-4xl font-bold tracking-tight text-gray-900">
-              Shop
+              {category} Shop
             </h1>
             <p className="mt-4 text-base text-gray-500">
               Checkout out the latest release of Basic Tees, new and improved
@@ -266,7 +418,7 @@ export default function Shop() {
 
               <div className="hidden lg:block">
                 <form className="space-y-10 divide-y divide-gray-200">
-                  {filters.map((section, sectionIdx) => (
+                  {categoryData?.filters.map((section, sectionIdx) => (
                     <div
                       key={section.name}
                       className={sectionIdx === 0 ? undefined : "pt-10"}
@@ -319,7 +471,7 @@ export default function Shop() {
                 {filteredProducts.map((product) => (
                   <div
                     key={product.id}
-                    className=" group relative flex flex-col overflow-hidden rounded-lg border border-gray-200 bg-white"
+                    className="group relative flex flex-col overflow-hidden rounded-lg border border-gray-200 bg-white"
                   >
                     <div className="aspect-h-4 aspect-w-3 bg-gray-200 sm:aspect-none group-hover:opacity-75 sm:h-96">
                       <img
