@@ -1,4 +1,3 @@
-import GarmsLogo from "../assets/Garms-Logo";
 import AboutImg1 from "../assets/About-1.jpg";
 import AboutImg2 from "../assets/About-2.jpg";
 import AboutImg3 from "../assets/About-3.jpg";
@@ -42,34 +41,34 @@ export default function Mission() {
           Our Mission
         </h1>
       </div>
-      <div className="text">
+      <div className="sm:text">
         {sections.map((section) =>
-          section.id % 2 ? (
+          window.innerWidth <= 720 || section.id % 2 == 1 ? (
             <div
               key={section.id}
-              className="h-screen grid grid-cols-2 items-center font-semibold"
+              className="h-screen grid grid-rows-2 md:grid-rows-none md:grid-cols-2 items-center font-semibold"
             >
-              <div className="px-20">
-                <p>{section.paragraph}</p>
-              </div>
               <div className="flex justify-center">
-                <div className="w-5/6 px-auto">
+                <div className="w-5/6  ">
                   <img src={section.image} alt="Suits on a rack" />
                 </div>
+              </div>
+              <div className="text-sm px-20 sm:px-5">
+                <p>{section.paragraph}</p>
               </div>
             </div>
           ) : (
             <div
               key={section.id}
-              className="h-screen grid grid-cols-2 items-center font-semibold"
+              className="h-screen -gap-y-4 grid grid-rows-2 md:grid-rows-none md:grid-cols-2 items-center font-semibold"
             >
+              <div className="text-sm px-20 sm:px-5">
+                <p>{section.paragraph}</p>
+              </div>
               <div className="flex justify-center">
-                <div className="w-5/6 px-auto">
+                <div className="w-5/6">
                   <img src={section.image} alt="Suits on a rack" />
                 </div>
-              </div>
-              <div className="px-20">
-                <p>{section.paragraph}</p>
               </div>
             </div>
           )

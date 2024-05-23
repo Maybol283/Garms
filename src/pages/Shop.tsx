@@ -274,8 +274,8 @@ export default function Shop() {
     }) || [];
 
   return (
-    <div className="bg-palette-1 mt-12">
-      <div>
+    <div className="bg-palette-1">
+      <div className=" mt-20 md:mt-12">
         {/* Mobile filter dialog */}
         <Transition.Root show={mobileFiltersOpen} as={Fragment}>
           <Dialog
@@ -364,7 +364,7 @@ export default function Shop() {
                                           option.value
                                         )
                                       }
-                                      className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                                      className="h-4 w-4 rounded border-300 text-indigo-600 focus:ring-indigo-500"
                                     />
                                     <label
                                       htmlFor={`${section.id}-${optionIdx}-mobile`}
