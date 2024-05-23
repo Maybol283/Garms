@@ -41,7 +41,7 @@ export default function Mission() {
           Our Mission
         </h1>
       </div>
-      <div className="sm:text">
+      <div className="text-sm sm:text">
         {sections.map((section) =>
           window.innerWidth <= 720 || section.id % 2 == 1 ? (
             <div
@@ -53,7 +53,7 @@ export default function Mission() {
                   <img src={section.image} alt="Suits on a rack" />
                 </div>
               </div>
-              <div className="text-sm px-20 sm:px-5">
+              <div className="px-20 sm:px-5">
                 <p>{section.paragraph}</p>
               </div>
             </div>
@@ -62,7 +62,7 @@ export default function Mission() {
               key={section.id}
               className="h-screen -gap-y-4 grid grid-rows-2 md:grid-rows-none md:grid-cols-2 items-center font-semibold"
             >
-              <div className="text-sm px-20 sm:px-5">
+              <div className="px-20 sm:px-5">
                 <p>{section.paragraph}</p>
               </div>
               <div className="flex justify-center">
