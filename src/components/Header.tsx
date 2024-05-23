@@ -6,12 +6,13 @@ import {
   ShoppingBagIcon,
 } from "@heroicons/react/24/outline";
 import GarmsLogo from "../assets/Garms-Logo.tsx";
+import { Link } from "react-router-dom";
 
 const navigation = [
-  { name: "Shirts", href: "#Shirts" },
-  { name: "Trousers", href: "#Trousers" },
-  { name: "Accessories", href: "#Accessories" },
-  { name: "About", href: "#About" },
+  { name: "Shirts", href: "Shop/Shirts" },
+  { name: "Trousers", href: "Shop/Trousers" },
+  { name: "Accessories", href: "Shop/Accessories" },
+  { name: "Mission", href: "Mission" },
 ];
 
 export default function Header() {
@@ -35,9 +36,9 @@ export default function Header() {
           className="mx-auto flex max-w-7xl items-center justify-between"
           aria-label="Global"
         >
-          <a href="#intropage ">
+          <Link to="/">
             <GarmsLogo className="size-32 -m-4 hover:text-palette-3" />
-          </a>
+          </Link>
           <div className="flex lg:hidden">
             <button
               type="button"
@@ -50,13 +51,13 @@ export default function Header() {
           </div>
           <div className="hidden lg:flex lg:gap-x-20 ">
             {navigation.map((item) => (
-              <a
+              <Link
                 key={item.href}
-                href={item.href}
+                to={item.href}
                 className="text-lg font-semibold align-bottom hover:text-palette-3"
               >
                 {item.name}
-              </a>
+              </Link>
             ))}
           </div>
           <ShoppingBagIcon className="size-6 hover:text-palette-3 hidden mr-10 lg:inline-block" />
@@ -80,11 +81,9 @@ export default function Header() {
             <div className="fixed inset-0 z-10">
               <Dialog.Panel className="fixed inset-y-0 right-0 z-10 w-full overflow-y-hidden bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
                 <div className="flex items-center justify-between">
-                  <a href="#" className="-m-1.5 p-1.5">
-                    <h1 className="bg-palette-1 rounded-3xl p-3 font-bold ">
-                      GV
-                    </h1>
-                  </a>
+                  <Link to="/" className="-m-1.5 p-1.5">
+                    <GarmsLogo className="size-32 -m-4 hover:text-palette-3" />
+                  </Link>
                   <button
                     type="button"
                     className="-m-2.5 rounded-md p-2.5 text-gray-700"
@@ -98,13 +97,13 @@ export default function Header() {
                   <div className="my-6 divide-y divide-gray-500/10">
                     <div className="space-y-10 py-6 text-center align-middle">
                       {navigation.map((item) => (
-                        <a
+                        <Link
                           key={item.name}
-                          href={item.href}
+                          to={item.href}
                           className="-mx-3 block rounded-lg px-3 py-10 subtitle-text font-semibold leading-7 text-black-900 hover:bg-gray-50"
                         >
                           {item.name}
-                        </a>
+                        </Link>
                       ))}
                     </div>
                   </div>

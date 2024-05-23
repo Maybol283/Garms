@@ -390,7 +390,7 @@ export default function Shop() {
         <main className="mx-auto max-w-2xl px-4 lg:max-w-7xl lg:px-8">
           <div className="border-b border-gray-200 pb-10 pt-24">
             <h1 className="text-4xl font-bold tracking-tight text-gray-900">
-              {category} Shop
+              {category}
             </h1>
             <p className="mt-4 text-base text-gray-500">
               Checkout out the latest release of Basic Tees, new and improved

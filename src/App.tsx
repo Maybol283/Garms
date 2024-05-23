@@ -4,6 +4,7 @@ import Home from "./pages/Home";
 import { Route, Routes } from "react-router";
 import Shop from "./pages/Shop";
 import { BrowserRouter } from "react-router-dom";
+import Mission from "./pages/Mission";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/shop/:category" element={<Shop />} />
+            <Route path="mission" element={<Mission />} />
           </Routes>
         </div>
         <Footer />
