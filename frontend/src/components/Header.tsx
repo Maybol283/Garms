@@ -1,4 +1,4 @@
-import { useState, Fragment } from "react";
+import { useEffect, useState, Fragment } from "react";
 import { Dialog, Transition, Popover } from "@headlessui/react";
 import {
   Bars3Icon,
@@ -41,9 +41,31 @@ const navigation = [
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [scrollPosition, setScrollPosition] = useState(0);
+  const [headerVisible, setHeaderVisible] = useState(true);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollPosition = window.pageYOffset;
+      setHeaderVisible(
+        scrollPosition > currentScrollPosition || currentScrollPosition < 10
+      );
+      setScrollPosition(currentScrollPosition);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [scrollPosition]);
 
   return (
-    <div className="fixed left-0 right-0 top-0 z-10">
+    <div
+      className={`fixed left-0 right-0 top-0 z-10 transition-transform duration-300 ${
+        headerVisible ? "translate-y-0" : "-translate-y-full"
+      }`}
+    >
       <header className="w-100 bg-palette-1 text-gray-600">
         <div
           className="text-center  bg-palette-3 py-2 text-white"

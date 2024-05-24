@@ -1,42 +1,57 @@
 import { useState, useEffect, ReactNode } from "react";
 
 interface CarouselProps {
-  items: ReactNode[];
+  items: (ReactNode | string)[];
+  styles?: string;
 }
 
-const Carousel: React.FC<CarouselProps> = ({ items }) => {
+const Carousel: React.FC<CarouselProps> = ({ items, styles }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+
+  const changeSlide = (newIndex: number) => {
+    setCurrentIndex(newIndex);
+  };
 
   const handlePrevClick = () => {
     const newIndex = currentIndex === 0 ? items.length - 1 : currentIndex - 1;
-    setCurrentIndex(newIndex);
+    changeSlide(newIndex);
+    pauseAutoScroll();
   };
 
   const handleNextClick = () => {
     const newIndex = currentIndex === items.length - 1 ? 0 : currentIndex + 1;
-    setCurrentIndex(newIndex);
+    changeSlide(newIndex);
+    pauseAutoScroll();
   };
 
   const handleLineClick = (index: number) => {
-    setCurrentIndex(index);
+    changeSlide(index);
+    pauseAutoScroll();
   };
 
-  // Auto-scroll functionality
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentIndex((prevIndex) =>
-        prevIndex === items.length - 1 ? 0 : prevIndex + 1
-      );
-    }, 5000); // Change slide every 3 seconds
+  const pauseAutoScroll = () => {
+    setIsPaused(true);
+    setTimeout(() => setIsPaused(false), 5000); // Resume auto-scroll after 10 seconds
+  };
 
-    return () => clearInterval(interval); // Clean up interval on unmount
-  }, [items.length]);
+  useEffect(() => {
+    if (!isPaused) {
+      const interval = setInterval(() => {
+        setCurrentIndex((prevIndex) =>
+          prevIndex === items.length - 1 ? 0 : prevIndex + 1
+        );
+      }, 5000); // Change slide every 5 seconds
+
+      return () => clearInterval(interval); // Clean up interval on unmount
+    }
+  }, [isPaused, items.length]);
 
   return (
-    <div className="relative w-full max-w-2xl mx-auto">
+    <div className={`relative w-full max-w-2xl mx-auto ${styles}`}>
       <div className="relative flex flex-row items-center gap-24 w-full max-w-2xl mx-auto">
         <button
-          className="absolute -left-10 hover:bg-palette-3 hover:text-white focus:outline-none bg-gray-800 text-white p-2 rounded-full z-10"
+          className="absolute -left-10 hover:bg-palette-3 hover:text-white focus:outline-none bg-gray-800 text-white p-2 rounded-full z-9"
           onClick={handlePrevClick}
         >
           &lt;
@@ -48,20 +63,28 @@ const Carousel: React.FC<CarouselProps> = ({ items }) => {
           >
             {items.map((item, index) => (
               <div key={index} className="min-w-full box-border">
-                {item}
+                {typeof item === "string" ? (
+                  <img
+                    src={item}
+                    alt={`Slide ${index}`}
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  item
+                )}
               </div>
             ))}
           </div>
         </div>
         <button
-          className="absolute -right-10 hover:bg-palette-3 hover:text-white focus:outline-none bg-gray-800 text-white p-2 rounded-full z-10"
+          className="absolute -right-10 hover:bg-palette-3 hover:text-white focus:outline-none bg-gray-800 text-white p-2 rounded-full z-9"
           onClick={handleNextClick}
         >
           &gt;
         </button>
       </div>
       <div className="flex justify-center mt-4">
-        {new Array(items.length).fill("").map((_, index) => (
+        {items.map((_, index) => (
           <span
             key={index}
             className={`block h-1 cursor-pointer rounded-2xl mx-1 transition-all content-[''] ${
