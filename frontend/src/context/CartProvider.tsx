@@ -6,6 +6,9 @@ interface CartItem {
   name: string;
   price: number;
   quantity: number;
+  images: { id: number; imageSrc: string; imageAlt: string }[];
+  color: string;
+  href: string;
 }
 
 // Define the type for the context value

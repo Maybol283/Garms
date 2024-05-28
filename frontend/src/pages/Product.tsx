@@ -5,18 +5,18 @@ import {
   CurrencyDollarIcon,
   GlobeAmericasIcon,
 } from "@heroicons/react/24/outline";
-import { useParams } from "react-router";
 import Carousel from "../components/Carousel";
+import Breadcrumbs from "../components/BreadCrumbs";
 
 const product = {
   name: "Basic Tee",
-  price: "$35",
+  price: "£35",
   rating: 3.9,
   reviewCount: 512,
   href: "#",
   breadcrumbs: [
     { id: 1, name: "Women", href: "#" },
-    { id: 2, name: "Clothing", href: "#" },
+    { id: 2, name: "Shirts", href: "#" },
   ],
   images: [
     {
@@ -87,53 +87,16 @@ function classNames(...classes: (string | undefined)[]) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function Product({ item }) {
+export default function Product() {
   const [selectedColor, setSelectedColor] = useState(product.colors[0]);
   const [selectedSize, setSelectedSize] = useState(product.sizes[2]);
 
   return (
     <div className="bg-palette-1">
-      <div className="pb-16 pt-6 sm:py-24 sm:pt-48">
-        <nav
-          aria-label="Breadcrumb"
-          className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"
-        >
-          <ol role="list" className="flex items-center space-x-4">
-            {product.breadcrumbs.map((breadcrumb) => (
-              <li key={breadcrumb.id}>
-                <div className="flex items-center">
-                  <a
-                    href={breadcrumb.href}
-                    className="mr-4 text-sm font-medium text-gray-900"
-                  >
-                    {breadcrumb.name}
-                  </a>
-                  <svg
-                    viewBox="0 0 6 20"
-                    aria-hidden="true"
-                    className="h-5 w-auto text-gray-300"
-                  >
-                    <path
-                      d="M4.878 4.34H3.551L.27 16.532h1.327l3.281-12.19z"
-                      fill="currentColor"
-                    />
-                  </svg>
-                </div>
-              </li>
-            ))}
-            <li className="text-sm">
-              <a
-                href={product.href}
-                aria-current="page"
-                className="font-medium text-gray-500 hover:text-gray-600"
-              >
-                {product.name}
-              </a>
-            </li>
-          </ol>
-        </nav>
+      <div className="pb-16 py-24 pt-48">
+        <Breadcrumbs />
         <div className="mx-auto mt-8 max-w-2xl px-4 sm:px-6 lg:max-w-7xl lg:px-8">
-          <div className="lg:grid lg:auto-rows-min lg:grid-cols-12 lg:gap-x-8">
+          <div className="mx-auto lg:grid lg:auto-rows-min lg:grid-cols-12 lg:gap-x-8">
             <div className="lg:col-span-5 lg:col-start-8">
               <div className="flex justify-between">
                 <h1 className="text-xl font-medium text-gray-900">

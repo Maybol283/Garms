@@ -4,6 +4,7 @@ import { XMarkIcon } from "@heroicons/react/24/outline";
 import { ChevronDownIcon, PlusIcon } from "@heroicons/react/20/solid";
 import { useParams, Link } from "react-router-dom";
 import Product from "./Product";
+import Breadcrumbs from "../components/BreadCrumbs";
 
 interface Product {
   id: number;
@@ -12,8 +13,7 @@ interface Product {
   price: string;
   description: string;
   options: string;
-  imageSrc: string;
-  imageAlt: string;
+  images: { id: number; imageSrc: string; imageAlt: string }[];
   sizes?: string[];
   colors?: string[];
   style?: string[];
@@ -69,10 +69,15 @@ const products: CategoryData[] = [
         description:
           "Get the full lineup of our Basic Tees. Have a fresh shirt all week, and an extra for laundry day.",
         options: "8 colors",
-        imageSrc:
-          "https://tailwindui.com/img/ecommerce-images/category-page-02-image-card-01.jpg",
-        imageAlt:
-          "Eight shirts arranged on table in black, olive, grey, blue, white, red, mustard, and green.",
+        images: [
+          {
+            id: 1,
+            imageSrc:
+              "https://tailwindui.com/img/ecommerce-images/category-page-02-image-card-01.jpg",
+            imageAlt:
+              "Eight shirts arranged on table in black, olive, grey, blue, white, red, mustard, and green.",
+          },
+        ],
         sizes: ["xl", "sm"],
         colors: ["purple", "beige"],
       },
@@ -84,9 +89,14 @@ const products: CategoryData[] = [
         description:
           "Look like a visionary CEO and wear the same black t-shirt every day.",
         options: "Black",
-        imageSrc:
-          "https://tailwindui.com/img/ecommerce-images/category-page-02-image-card-02.jpg",
-        imageAlt: "Front of plain black t-shirt.",
+        images: [
+          {
+            id: 1,
+            imageSrc:
+              "https://tailwindui.com/img/ecommerce-images/category-page-02-image-card-02.jpg",
+            imageAlt: "Front of plain black t-shirt.",
+          },
+        ],
         sizes: ["xl"],
         colors: ["purple"],
       },
@@ -130,9 +140,14 @@ const products: CategoryData[] = [
         description:
           "Look like a visionary CEO and wear the same black t-shirt every day.",
         options: "Black",
-        imageSrc:
-          "https://images.unsplash.com/photo-1524805444758-089113d48a6d?q=80&w=1888&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-        imageAlt: "Front of plain black t-shirt.",
+        images: [
+          {
+            id: 1,
+            imageSrc:
+              "https://images.unsplash.com/photo-1519211777646-3a7ccf759b64?q=80&w=1885&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            imageAlt: "Front of plain black t-shirt.",
+          },
+        ],
         sizes: ["34"],
         colors: ["Purple"],
       },
@@ -174,9 +189,14 @@ const products: CategoryData[] = [
         description:
           "Look like a visionary CEO and wear the same black t-shirt every day.",
         options: "Black",
-        imageSrc:
-          "https://images.unsplash.com/photo-1524805444758-089113d48a6d?q=80&w=1888&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-        imageAlt: "Front of plain black t-shirt.",
+        images: [
+          {
+            id: 1,
+            imageSrc:
+              "https://images.unsplash.com/photo-1524805444758-089113d48a6d?q=80&w=1888&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            imageAlt: "Front of plain black t-shirt.",
+          },
+        ],
         colors: ["purple"],
         style: ["watches"],
       },
@@ -224,9 +244,14 @@ const products: CategoryData[] = [
         description:
           "Look like a visionary CEO and wear the same black t-shirt every day.",
         options: "Black",
-        imageSrc:
-          "https://images.unsplash.com/photo-1524805444758-089113d48a6d?q=80&w=1888&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-        imageAlt: "Front of plain black t-shirt.",
+        images: [
+          {
+            id: 1,
+            imageSrc:
+              "https://images.unsplash.com/photo-1524805444758-089113d48a6d?q=80&w=1888&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            imageAlt: "Front of plain black t-shirt.",
+          },
+        ],
         sizes: ["3", "4"],
         colors: ["Purple"],
       },
@@ -276,7 +301,7 @@ export default function Shop() {
 
   return (
     <div className="bg-palette-1">
-      <div className=" mt-20 md:mt-12">
+      <div className="md:mt-12 bg-palette-1">
         {/* Mobile filter dialog */}
         <Transition.Root show={mobileFiltersOpen} as={Fragment}>
           <Dialog
@@ -388,11 +413,14 @@ export default function Shop() {
           </Dialog>
         </Transition.Root>
 
-        <main className="mx-auto max-w-2xl px-4 lg:max-w-7xl lg:px-8">
-          <div className="border-b border-gray-200 pb-10 pt-24">
+        <Breadcrumbs margin={"-mb-12 pt-28"} />
+
+        <main className="mx-auto max-w-2xl px-4 lg:max-w-7xl lg:px-8 ">
+          <div className="pb-10 pt-28">
             <h1 className="text-4xl font-bold tracking-tight text-gray-900">
               {category}
             </h1>
+
             <p className="mt-4 text-base text-gray-500">
               Checkout out the latest release of Basic Tees, new and improved
               with four openings!
@@ -477,8 +505,8 @@ export default function Shop() {
                     >
                       <div className="aspect-h-4 aspect-w-3 bg-gray-200 sm:aspect-none group-hover:opacity-75 sm:h-96">
                         <img
-                          src={product.imageSrc}
-                          alt={product.imageAlt}
+                          src={product.images[0].imageSrc}
+                          alt={product.images[0].imageSrc}
                           className="h-full w-full object-cover object-center sm:h-full sm:w-full"
                         />
                       </div>

@@ -1,4 +1,4 @@
-import { useEffect, useState, Fragment } from "react";
+import { useEffect, useState, Fragment, useContext } from "react";
 import { Dialog, Transition, Popover } from "@headlessui/react";
 import {
   Bars3Icon,
@@ -7,6 +7,7 @@ import {
 } from "@heroicons/react/24/outline";
 import GarmsLogo from "../assets/Garms-Logo.tsx";
 import { Link } from "react-router-dom";
+import { CartContext } from "../context/CartProvider.tsx";
 
 const products = [
   {
@@ -43,10 +44,11 @@ export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrollPosition, setScrollPosition] = useState(0);
   const [headerVisible, setHeaderVisible] = useState(true);
+  const cart = useContext(CartContext);
 
   useEffect(() => {
     const handleScroll = () => {
-      const currentScrollPosition = window.pageYOffset;
+      const currentScrollPosition = window.scrollY;
       setHeaderVisible(
         scrollPosition > currentScrollPosition || currentScrollPosition < 10
       );
@@ -92,7 +94,7 @@ export default function Header() {
               onClick={() => setMobileMenuOpen(true)}
             >
               <span className="sr-only">Open main menu</span>
-              <Bars3Icon className="h-6 w-6 mr-10" aria-hidden="true" />
+              <Bars3Icon className="h-6 w-6" aria-hidden="true" />
             </button>
           </div>
           <div className="hidden lg:flex lg:gap-x-20 ">
@@ -106,7 +108,7 @@ export default function Header() {
               </Link>
             ))}
           </div>
-          <Popover className="ml-4 flow-root text-sm lg:relative lg:ml-8">
+          <Popover className="flow-root text-sm lg:relative  pr-4 md:pr-12">
             <Popover.Button className="group -m-2 flex items-center p-2">
               <ShoppingBagIcon
                 className="size-10 flex-shrink-0 text-gray-400 group-hover:text-palette-3"
@@ -126,26 +128,32 @@ export default function Header() {
               leaveFrom="opacity-100"
               leaveTo="opacity-0"
             >
-              <Popover.Panel className="absolute inset-x-0 top-16 mt-px bg-palette-3 pb-6 shadow-lg sm:px-2 lg:left-auto lg:right-0 lg:top-full lg:-mr-1.5 lg:mt-3 lg:w-80 lg:rounded-lg lg:ring-1 lg:ring-black lg:ring-opacity-5">
+              <Popover.Panel className="absolute inset-x-0 top-16  bg-palette-3 pb-6 shadow-lg sm:px-2 lg:left-auto lg:right-0 lg:top-full lg:-mr-1.5 lg:mt-3 lg:w-80 lg:rounded-lg lg:ring-1 lg:ring-black lg:ring-opacity-5 m-0 -mt-1">
                 <h2 className="sr-only">Shopping Cart</h2>
 
                 <form className="mx-auto max-w-2xl px-4">
                   <ul role="list" className="divide-y divide-palette-1">
-                    {products.map((product) => (
-                      <li key={product.id} className="flex items-center py-6">
-                        <img
-                          src={product.imageSrc}
-                          alt={product.imageAlt}
-                          className="h-16 w-16 flex-none rounded-md border border-gray-200"
-                        />
-                        <div className="ml-4 flex-auto">
-                          <h3 className="font-medium text-palette-1">
-                            <a href={product.href}>{product.name}</a>
-                          </h3>
-                          <p className="text-white">{product.color}</p>
-                        </div>
+                    {cart?.cartItems.length === 0 ? (
+                      <li className="py-6 text-center">
+                        <p className="text-palette-1">No Products selected</p>
                       </li>
-                    ))}
+                    ) : (
+                      cart?.cartItems.map((product) => (
+                        <li key={product.id} className="flex items-center py-6">
+                          <img
+                            src={product.images[0].imageSrc}
+                            alt={product.images[0].imageAlt}
+                            className="h-16 w-16 flex-none rounded-md border border-gray-200"
+                          />
+                          <div className="ml-4 flex-auto">
+                            <h3 className="font-medium text-palette-1">
+                              <a href={product.href}>{product.name}</a>
+                            </h3>
+                            <p className="text-white">{product.color}</p>
+                          </div>
+                        </li>
+                      ))
+                    )}
                   </ul>
 
                   <button

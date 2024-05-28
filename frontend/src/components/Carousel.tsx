@@ -51,7 +51,7 @@ const Carousel: React.FC<CarouselProps> = ({ items, styles }) => {
     <div className={`relative w-full max-w-2xl mx-auto ${styles}`}>
       <div className="relative flex flex-row items-center gap-24 w-full max-w-2xl mx-auto">
         <button
-          className="absolute -left-10 hover:bg-palette-3 hover:text-white focus:outline-none bg-gray-800 text-white p-2 rounded-full z-9"
+          className="hidden md:inline-block absolute -left-10 hover:bg-palette-3 hover:text-white focus:outline-none bg-gray-800 text-white p-2 rounded-full z-9"
           onClick={handlePrevClick}
         >
           &lt;
@@ -77,7 +77,7 @@ const Carousel: React.FC<CarouselProps> = ({ items, styles }) => {
           </div>
         </div>
         <button
-          className="absolute -right-10 hover:bg-palette-3 hover:text-white focus:outline-none bg-gray-800 text-white p-2 rounded-full z-9"
+          className="hidden md:inline-block absolute -right-10 hover:bg-palette-3 hover:text-white focus:outline-none bg-gray-800 text-white p-2 rounded-full z-9"
           onClick={handleNextClick}
         >
           &gt;
