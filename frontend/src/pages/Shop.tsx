@@ -3,32 +3,8 @@ import { Dialog, Disclosure, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { ChevronDownIcon, PlusIcon } from "@heroicons/react/20/solid";
 import { useParams, Link } from "react-router-dom";
-import Product from "./Product";
 import Breadcrumbs from "../components/BreadCrumbs";
-
-interface Product {
-  id: number;
-  name: string;
-  href: string;
-  price: string;
-  description: string;
-  options: string;
-  images: { id: number; imageSrc: string; imageAlt: string }[];
-  sizes?: string[];
-  colors?: string[];
-  style?: string[];
-}
-
-interface CategoryData {
-  id: number;
-  category: string;
-  items: Product[];
-  filters: {
-    name: string;
-    id: string;
-    options: { value: string; label: string }[];
-  }[];
-}
+import { CategoryData } from "../interface";
 
 const products: CategoryData[] = [
   {
@@ -39,24 +15,24 @@ const products: CategoryData[] = [
         id: "color",
         name: "Color",
         options: [
-          { value: "white", label: "White" },
-          { value: "beige", label: "Beige" },
-          { value: "blue", label: "Blue" },
-          { value: "brown", label: "Brown" },
-          { value: "green", label: "Green" },
-          { value: "purple", label: "Purple" },
+          { value: "white", label: "White", inStock: true },
+          { value: "beige", label: "Beige", inStock: true },
+          { value: "blue", label: "Blue", inStock: true },
+          { value: "brown", label: "Brown", inStock: true },
+          { value: "green", label: "Green", inStock: true },
+          { value: "purple", label: "Purple", inStock: true },
         ],
       },
       {
         id: "sizes",
         name: "Sizes",
         options: [
-          { value: "xs", label: "XS" },
-          { value: "s", label: "S" },
-          { value: "m", label: "M" },
-          { value: "l", label: "L" },
-          { value: "xl", label: "XL" },
-          { value: "2xl", label: "2XL" },
+          { value: "xs", label: "XS", inStock: true },
+          { value: "s", label: "S", inStock: true },
+          { value: "m", label: "M", inStock: true },
+          { value: "l", label: "L", inStock: true },
+          { value: "xl", label: "XL", inStock: true },
+          { value: "2xl", label: "2XL", inStock: true },
         ],
       },
     ],
@@ -64,11 +40,11 @@ const products: CategoryData[] = [
       {
         id: 1,
         name: "Basic Tee 8-Pack",
-        href: "Basic",
         price: "$256",
+        rating: 0,
+        reviewCount: 3.5,
         description:
           "Get the full lineup of our Basic Tees. Have a fresh shirt all week, and an extra for laundry day.",
-        options: "8 colors",
         images: [
           {
             id: 1,
@@ -78,17 +54,23 @@ const products: CategoryData[] = [
               "Eight shirts arranged on table in black, olive, grey, blue, white, red, mustard, and green.",
           },
         ],
-        sizes: ["xl", "sm"],
-        colors: ["purple", "beige"],
+        sizes: [
+          { name: "xl", inStock: true },
+          { name: "sm", inStock: true },
+        ],
+        colors: [
+          { name: "Purple", sample: "purple", inStock: true },
+          { name: "Beige", sample: "slate", inStock: true },
+        ],
       },
       {
         id: 2,
         name: "Basic Tee",
-        href: "#",
         price: "$32",
+        rating: 0,
+        reviewCount: 3.5,
         description:
           "Look like a visionary CEO and wear the same black t-shirt every day.",
-        options: "Black",
         images: [
           {
             id: 1,
@@ -97,8 +79,8 @@ const products: CategoryData[] = [
             imageAlt: "Front of plain black t-shirt.",
           },
         ],
-        sizes: ["xl"],
-        colors: ["purple"],
+        sizes: [{ name: "xl", inStock: true }],
+        colors: [{ name: "Purple", sample: "purple", inStock: true }],
       },
     ],
   },
@@ -110,24 +92,24 @@ const products: CategoryData[] = [
         id: "color",
         name: "Color",
         options: [
-          { value: "white", label: "White" },
-          { value: "beige", label: "Beige" },
-          { value: "blue", label: "Blue" },
-          { value: "brown", label: "Brown" },
-          { value: "green", label: "Green" },
-          { value: "purple", label: "Purple" },
+          { value: "white", label: "White", inStock: true },
+          { value: "beige", label: "Beige", inStock: true },
+          { value: "blue", label: "Blue", inStock: true },
+          { value: "brown", label: "Brown", inStock: true },
+          { value: "green", label: "Green", inStock: true },
+          { value: "purple", label: "Purple", inStock: true },
         ],
       },
       {
         id: "sizes",
         name: "Sizes",
         options: [
-          { value: "28", label: "28" },
-          { value: "30", label: "30" },
-          { value: "32", label: "32" },
-          { value: "34", label: "34" },
-          { value: "36", label: "36" },
-          { value: "38", label: "38" },
+          { value: "28", label: "28", inStock: true },
+          { value: "30", label: "30", inStock: true },
+          { value: "32", label: "32", inStock: true },
+          { value: "34", label: "34", inStock: true },
+          { value: "36", label: "36", inStock: true },
+          { value: "38", label: "38", inStock: true },
         ],
       },
     ],
@@ -135,11 +117,11 @@ const products: CategoryData[] = [
       {
         id: 1,
         name: "TestTrousers",
-        href: "#",
         price: "$32",
+        rating: 0,
+        reviewCount: 3.5,
         description:
           "Look like a visionary CEO and wear the same black t-shirt every day.",
-        options: "Black",
         images: [
           {
             id: 1,
@@ -148,8 +130,8 @@ const products: CategoryData[] = [
             imageAlt: "Front of plain black t-shirt.",
           },
         ],
-        sizes: ["34"],
-        colors: ["Purple"],
+        sizes: [{ name: "34", inStock: true }],
+        colors: [{ name: "Purple", sample: "purple", inStock: true }],
       },
     ],
   },
@@ -161,22 +143,22 @@ const products: CategoryData[] = [
         id: "color",
         name: "Color",
         options: [
-          { value: "white", label: "White" },
-          { value: "beige", label: "Beige" },
-          { value: "blue", label: "Blue" },
-          { value: "brown", label: "Brown" },
-          { value: "green", label: "Green" },
-          { value: "purple", label: "Purple" },
+          { value: "white", label: "White", inStock: true },
+          { value: "beige", label: "Beige", inStock: true },
+          { value: "blue", label: "Blue", inStock: true },
+          { value: "brown", label: "Brown", inStock: true },
+          { value: "green", label: "Green", inStock: true },
+          { value: "purple", label: "Purple", inStock: true },
         ],
       },
       {
         id: "style",
         name: "Style",
         options: [
-          { value: "watches", label: "Watches" },
-          { value: "hats", label: "Hats" },
-          { value: "belts", label: "Belts" },
-          { value: "wallets", label: "Wallets" },
+          { value: "watches", label: "Watches", inStock: true },
+          { value: "hats", label: "Hats", inStock: true },
+          { value: "belts", label: "Belts", inStock: true },
+          { value: "wallets", label: "Wallets", inStock: true },
         ],
       },
     ],
@@ -184,11 +166,11 @@ const products: CategoryData[] = [
       {
         id: 3,
         name: "Watch",
-        href: "#",
         price: "$32",
+        rating: 0,
+        reviewCount: 3.5,
         description:
           "Look like a visionary CEO and wear the same black t-shirt every day.",
-        options: "Black",
         images: [
           {
             id: 1,
@@ -197,8 +179,8 @@ const products: CategoryData[] = [
             imageAlt: "Front of plain black t-shirt.",
           },
         ],
-        colors: ["purple"],
-        style: ["watches"],
+        colors: [{ name: "Purple", sample: "purple", inStock: true }],
+        style: [{ name: "Watches", inStock: true }],
       },
     ],
   },
@@ -210,28 +192,28 @@ const products: CategoryData[] = [
         id: "color",
         name: "Color",
         options: [
-          { value: "white", label: "White" },
-          { value: "beige", label: "Beige" },
-          { value: "blue", label: "Blue" },
-          { value: "brown", label: "Brown" },
-          { value: "green", label: "Green" },
-          { value: "purple", label: "Purple" },
+          { value: "white", label: "White", inStock: true },
+          { value: "beige", label: "Beige", inStock: true },
+          { value: "blue", label: "Blue", inStock: true },
+          { value: "brown", label: "Brown", inStock: true },
+          { value: "green", label: "Green", inStock: true },
+          { value: "purple", label: "Purple", inStock: true },
         ],
       },
       {
         id: "sizes",
         name: "Sizes",
         options: [
-          { value: "3", label: "3" },
-          { value: "4", label: "4" },
-          { value: "5", label: "5" },
-          { value: "6", label: "6" },
-          { value: "7", label: "7" },
-          { value: "8", label: "8" },
-          { value: "9", label: "9" },
-          { value: "10", label: "10" },
-          { value: "11", label: "11" },
-          { value: "12", label: "12" },
+          { value: "3", label: "3", inStock: true },
+          { value: "4", label: "4", inStock: true },
+          { value: "5", label: "5", inStock: true },
+          { value: "6", label: "6", inStock: true },
+          { value: "7", label: "7", inStock: true },
+          { value: "8", label: "8", inStock: true },
+          { value: "9", label: "9", inStock: true },
+          { value: "10", label: "10", inStock: true },
+          { value: "11", label: "11", inStock: true },
+          { value: "12", label: "12", inStock: true },
         ],
       },
     ],
@@ -239,11 +221,11 @@ const products: CategoryData[] = [
       {
         id: 1,
         name: "Test-Shoes",
-        href: "#",
         price: "$32",
+        rating: 0,
+        reviewCount: 3.5,
         description:
           "Look like a visionary CEO and wear the same black t-shirt every day.",
-        options: "Black",
         images: [
           {
             id: 1,
@@ -252,8 +234,11 @@ const products: CategoryData[] = [
             imageAlt: "Front of plain black t-shirt.",
           },
         ],
-        sizes: ["3", "4"],
-        colors: ["Purple"],
+        sizes: [
+          { name: "3", inStock: true },
+          { name: "4", inStock: true },
+        ],
+        colors: [{ name: "Purple", sample: "purple", inStock: true }],
       },
     ],
   },
@@ -288,13 +273,15 @@ export default function Shop() {
     categoryData?.items.filter((product) => {
       const matchesSizes =
         Filters.size === 0 ||
-        (product.sizes && product.sizes.some((size) => Filters.has(size)));
+        (product.sizes && product.sizes.some((size) => Filters.has(size.name)));
       const matchesColors =
         Filters.size === 0 ||
-        (product.colors && product.colors.some((color) => Filters.has(color)));
+        (product.colors &&
+          product.colors.some((color) => Filters.has(color.name)));
       const matchesStyle =
         Filters.size === 0 ||
-        (product.style && product.style.some((style) => Filters.has(style)));
+        (product.style &&
+          product.style.some((style) => Filters.has(style.name)));
 
       return matchesSizes || matchesColors || matchesStyle;
     }) || [];
@@ -518,9 +505,6 @@ export default function Shop() {
                           {product.description}
                         </p>
                         <div className="flex flex-1 flex-col justify-end">
-                          <p className="text-sm italic text-gray-500">
-                            {product.options}
-                          </p>
                           <p className="text-base font-medium text-gray-900">
                             {product.price}
                           </p>

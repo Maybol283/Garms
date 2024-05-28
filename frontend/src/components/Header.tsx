@@ -9,30 +9,6 @@ import GarmsLogo from "../assets/Garms-Logo.tsx";
 import { Link } from "react-router-dom";
 import { CartContext } from "../context/CartProvider.tsx";
 
-const products = [
-  {
-    id: 1,
-    name: "Throwback Hip Bag",
-    href: "#",
-    color: "Salmon",
-    imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/shopping-cart-page-04-product-01.jpg",
-    imageAlt:
-      "Salmon orange fabric pouch with match zipper, gray zipper pull, and adjustable hip belt.",
-  },
-  {
-    id: 2,
-    name: "Medium Stuff Satchel",
-    href: "#",
-    color: "Blue",
-    imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/shopping-cart-page-04-product-02.jpg",
-    imageAlt:
-      "Front of satchel with blue canvas body, black straps and handle, drawstring top, and front zipper pouch.",
-  },
-  // More products...
-];
-
 const navigation = [
   { name: "Shirts", href: "Shop/Shirts" },
   { name: "Trousers", href: "Shop/Trousers" },
@@ -115,7 +91,7 @@ export default function Header() {
                 aria-hidden="true"
               />
               <span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">
-                0
+                {cart?.cartItems.length}
               </span>
               <span className="sr-only">items in cart, view bag</span>
             </Popover.Button>

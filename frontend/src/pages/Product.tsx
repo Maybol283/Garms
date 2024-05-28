@@ -7,17 +7,14 @@ import {
 } from "@heroicons/react/24/outline";
 import Carousel from "../components/Carousel";
 import Breadcrumbs from "../components/BreadCrumbs";
+import { ProductData } from "../interface";
 
-const product = {
+const product: ProductData = {
+  id: 1,
   name: "Basic Tee",
   price: "£35",
   rating: 3.9,
   reviewCount: 512,
-  href: "#",
-  breadcrumbs: [
-    { id: 1, name: "Women", href: "#" },
-    { id: 2, name: "Shirts", href: "#" },
-  ],
   images: [
     {
       id: 1,
@@ -42,11 +39,11 @@ const product = {
     },
   ],
   colors: [
-    { name: "Black", bgColor: "bg-gray-900", selectedColor: "ring-gray-900" },
+    { name: "Black", sample: "black", inStock: true },
     {
-      name: "Heather Grey",
-      bgColor: "bg-gray-400",
-      selectedColor: "ring-gray-400",
+      name: "Blue",
+      sample: "blue-400",
+      inStock: true,
     },
   ],
   sizes: [
@@ -88,8 +85,12 @@ function classNames(...classes: (string | undefined)[]) {
 }
 
 export default function Product() {
-  const [selectedColor, setSelectedColor] = useState(product.colors[0]);
-  const [selectedSize, setSelectedSize] = useState(product.sizes[2]);
+  const [selectedColor, setSelectedColor] = useState(
+    product.colors ? product.colors[0] : null
+  );
+  const [selectedSize, setSelectedSize] = useState(
+    product.sizes ? product.sizes[0] : null
+  );
 
   return (
     <div className="bg-palette-1">
@@ -158,86 +159,92 @@ export default function Product() {
             <div className="mt-8 lg:col-span-5">
               <form>
                 {/* Color picker */}
-                <div>
-                  <h2 className="text-sm font-medium text-gray-900">Color</h2>
+                {product.colors && product.colors.length > 0 ? (
+                  <div>
+                    <h2 className="text-sm font-medium text-gray-900">Color</h2>
 
-                  <fieldset aria-label="Choose a color" className="mt-2">
-                    <RadioGroup
-                      value={selectedColor}
-                      onChange={setSelectedColor}
-                      className="flex items-center space-x-3"
-                    >
-                      {product.colors.map((color) => (
-                        <Radio
-                          key={color.name}
-                          value={color}
-                          aria-label={color.name}
-                          className={({ focus, checked }) =>
-                            classNames(
-                              color.selectedColor,
-                              focus && checked ? "ring ring-offset-1" : "",
-                              !focus && checked ? "ring-2" : "",
-                              "relative -m-0.5 flex cursor-pointer items-center justify-center rounded-full p-0.5 focus:outline-none"
-                            )
-                          }
-                        >
-                          <span
-                            aria-hidden="true"
-                            className={classNames(
-                              color.bgColor,
-                              "h-8 w-8 rounded-full border border-black border-opacity-10"
-                            )}
-                          />
-                        </Radio>
-                      ))}
-                    </RadioGroup>
-                  </fieldset>
-                </div>
+                    <fieldset aria-label="Choose a color" className="mt-2">
+                      <RadioGroup
+                        value={selectedColor}
+                        onChange={setSelectedColor}
+                        className="flex items-center space-x-3"
+                      >
+                        {product.colors.map((color) => (
+                          <Radio
+                            key={color.name}
+                            value={color}
+                            aria-label={color.name}
+                            className={({ focus, checked }) =>
+                              classNames(
+                                `ring-${color.sample}`,
+                                focus && checked ? "ring ring-offset-1" : "",
+                                !focus && checked ? "ring-2" : "",
+                                "relative -m-0.5 flex cursor-pointer items-center justify-center rounded-full p-0.5 focus:outline-none"
+                              )
+                            }
+                          >
+                            <span
+                              aria-hidden="true"
+                              className={classNames(
+                                `bg-${color.sample}`,
+                                "h-8 w-8 rounded-full border border-black border-opacity-10"
+                              )}
+                            />
+                          </Radio>
+                        ))}
+                      </RadioGroup>
+                    </fieldset>
+                  </div>
+                ) : null}
 
                 {/* Size picker */}
-                <div className="mt-8">
-                  <div className="flex items-center justify-between">
-                    <h2 className="text-sm font-medium text-gray-900">Size</h2>
-                    <a
-                      href="#"
-                      className="text-sm font-medium text-gray-600 hover:text-palette-3"
-                    >
-                      See sizing chart
-                    </a>
-                  </div>
+                {product.sizes && product.sizes.length > 0 ? (
+                  <div className="mt-8">
+                    <div className="flex items-center justify-between">
+                      <h2 className="text-sm font-medium text-gray-900">
+                        Size
+                      </h2>
+                      <a
+                        href="#"
+                        className="text-sm font-medium text-gray-600 hover:text-palette-3"
+                      >
+                        See sizing chart
+                      </a>
+                    </div>
 
-                  <fieldset aria-label="Choose a size" className="mt-2">
-                    <RadioGroup
-                      value={selectedSize}
-                      onChange={setSelectedSize}
-                      className="grid grid-cols-3 gap-3 sm:grid-cols-6"
-                    >
-                      {product.sizes.map((size) => (
-                        <Radio
-                          key={size.name}
-                          value={size}
-                          className={({ focus, checked }) =>
-                            classNames(
-                              size.inStock
-                                ? "cursor-pointer focus:outline-none"
-                                : "cursor-not-allowed opacity-25",
-                              focus
-                                ? "ring-2 ring-indigo-500 ring-offset-2"
-                                : "",
-                              checked
-                                ? "border-transparent bg-palette-3 text-white hover:bg-palette-3"
-                                : "border-gray-200 bg-white text-gray-900 hover:bg-gray-50",
-                              "flex items-center justify-center rounded-md border py-3 px-3 text-sm font-medium uppercase sm:flex-1"
-                            )
-                          }
-                          disabled={!size.inStock}
-                        >
-                          {size.name}
-                        </Radio>
-                      ))}
-                    </RadioGroup>
-                  </fieldset>
-                </div>
+                    <fieldset aria-label="Choose a size" className="mt-2">
+                      <RadioGroup
+                        value={selectedSize}
+                        onChange={setSelectedSize}
+                        className="grid grid-cols-3 gap-3 sm:grid-cols-6"
+                      >
+                        {product.sizes.map((size) => (
+                          <Radio
+                            key={size.name}
+                            value={size}
+                            className={({ focus, checked }) =>
+                              classNames(
+                                size.inStock
+                                  ? "cursor-pointer focus:outline-none"
+                                  : "cursor-not-allowed opacity-25",
+                                focus
+                                  ? "ring-2 ring-indigo-500 ring-offset-2"
+                                  : "",
+                                checked
+                                  ? "border-transparent bg-palette-3 text-white hover:bg-palette-3"
+                                  : "border-gray-200 bg-white text-gray-900 hover:bg-gray-50",
+                                "flex items-center justify-center rounded-md border py-3 px-3 text-sm font-medium uppercase sm:flex-1"
+                              )
+                            }
+                            disabled={!size.inStock}
+                          >
+                            {size.name}
+                          </Radio>
+                        ))}
+                      </RadioGroup>
+                    </fieldset>
+                  </div>
+                ) : null}
 
                 <button
                   type="submit"
@@ -266,9 +273,8 @@ export default function Product() {
 
                 <div className="prose prose-sm mt-4 text-gray-500">
                   <ul role="list">
-                    {product.details.map((item) => (
-                      <li key={item}>{item}</li>
-                    ))}
+                    {product.details &&
+                      product.details.map((item) => <li key={item}>{item}</li>)}
                   </ul>
                 </div>
               </div>
