@@ -40,9 +40,10 @@ const products: CategoryData[] = [
       {
         id: 1,
         name: "Basic Tee 8-Pack",
-        price: "$256",
+        price: 256,
         rating: 0,
         reviewCount: 3.5,
+        amountInStock: 100,
         description:
           "Get the full lineup of our Basic Tees. Have a fresh shirt all week, and an extra for laundry day.",
         images: [
@@ -66,9 +67,10 @@ const products: CategoryData[] = [
       {
         id: 2,
         name: "Basic Tee",
-        price: "$32",
+        price: 32,
         rating: 0,
         reviewCount: 3.5,
+        amountInStock: 100,
         description:
           "Look like a visionary CEO and wear the same black t-shirt every day.",
         images: [
@@ -117,9 +119,10 @@ const products: CategoryData[] = [
       {
         id: 1,
         name: "TestTrousers",
-        price: "$32",
+        price: 32,
         rating: 0,
         reviewCount: 3.5,
+        amountInStock: 100,
         description:
           "Look like a visionary CEO and wear the same black t-shirt every day.",
         images: [
@@ -166,9 +169,10 @@ const products: CategoryData[] = [
       {
         id: 3,
         name: "Watch",
-        price: "$32",
+        price: 32,
         rating: 0,
         reviewCount: 3.5,
+        amountInStock: 100,
         description:
           "Look like a visionary CEO and wear the same black t-shirt every day.",
         images: [
@@ -221,9 +225,10 @@ const products: CategoryData[] = [
       {
         id: 1,
         name: "Test-Shoes",
-        price: "$32",
+        price: 32,
         rating: 0,
         reviewCount: 3.5,
+        amountInStock: 100,
         description:
           "Look like a visionary CEO and wear the same black t-shirt every day.",
         images: [

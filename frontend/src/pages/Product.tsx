@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { StarIcon } from "@heroicons/react/20/solid";
 import { Radio, RadioGroup } from "@headlessui/react";
 import {
@@ -7,13 +7,15 @@ import {
 } from "@heroicons/react/24/outline";
 import Carousel from "../components/Carousel";
 import Breadcrumbs from "../components/BreadCrumbs";
-import { ProductData } from "../interface";
+import { CartItem, ProductData } from "../interface";
+import { CartContext } from "../context/CartProvider";
 
 const product: ProductData = {
   id: 1,
   name: "Basic Tee",
-  price: "£35",
+  price: 35,
   rating: 3.9,
+  amountInStock: 100,
   reviewCount: 512,
   images: [
     {
@@ -39,10 +41,15 @@ const product: ProductData = {
     },
   ],
   colors: [
-    { name: "Black", sample: "black", inStock: true },
     {
-      name: "Blue",
-      sample: "blue-400",
+      name: "Black",
+      sample: "black",
+      inStock: true,
+    },
+    {
+      name: "Red",
+      sample: "red-500",
+
       inStock: true,
     },
   ],
@@ -86,11 +93,37 @@ function classNames(...classes: (string | undefined)[]) {
 
 export default function Product() {
   const [selectedColor, setSelectedColor] = useState(
-    product.colors ? product.colors[0] : null
+    product.colors ? product.colors[0].name : undefined
   );
   const [selectedSize, setSelectedSize] = useState(
-    product.sizes ? product.sizes[0] : null
+    product.sizes ? product.sizes[0].name : undefined
   );
+  let cart = useContext(CartContext);
+
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+
+    const productToAdd: CartItem = {
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      quantity: 1,
+      image: {
+        imageSrc: product.images[0].imageSrc,
+        imageAlt: product.images[0].imageAlt,
+      },
+    };
+
+    if (selectedColor) {
+      productToAdd.color = selectedColor;
+    }
+
+    if (selectedSize) {
+      productToAdd.size = selectedSize;
+    }
+
+    cart?.addToCart(productToAdd);
+  };
 
   return (
     <div className="bg-palette-1">
@@ -157,7 +190,7 @@ export default function Product() {
             </div>
 
             <div className="mt-8 lg:col-span-5">
-              <form>
+              <form onSubmit={handleSubmit}>
                 {/* Color picker */}
                 {product.colors && product.colors.length > 0 ? (
                   <div>
@@ -176,18 +209,16 @@ export default function Product() {
                             aria-label={color.name}
                             className={({ focus, checked }) =>
                               classNames(
-                                `ring-${color.sample}`,
                                 focus && checked ? "ring ring-offset-1" : "",
                                 !focus && checked ? "ring-2" : "",
-                                "relative -m-0.5 flex cursor-pointer items-center justify-center rounded-full p-0.5 focus:outline-none"
+                                `ring-${color.sample} relative -m-0.5 flex cursor-pointer items-center justify-center rounded-full p-0.5 focus:outline-none`
                               )
                             }
                           >
                             <span
                               aria-hidden="true"
                               className={classNames(
-                                `bg-${color.sample}`,
-                                "h-8 w-8 rounded-full border border-black border-opacity-10"
+                                `bg-${color.sample} h-8 w-8 rounded-full border border-black border-opacity-10`
                               )}
                             />
                           </Radio>

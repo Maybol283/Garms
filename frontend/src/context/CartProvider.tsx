@@ -1,29 +1,5 @@
-import React, { createContext, useState, useEffect, ReactNode } from "react";
-
-// Define the type for a cart item
-interface CartItem {
-  id: string;
-  name: string;
-  price: number;
-  quantity: number;
-  images: { id: number; imageSrc: string; imageAlt: string }[];
-  color: string;
-  href: string;
-}
-
-// Define the type for the context value
-interface CartContextValue {
-  cartItems: CartItem[];
-  addToCart: (item: CartItem) => void;
-  removeFromCart: (item: CartItem) => void;
-  clearCart: () => void;
-  getCartTotal: () => number;
-}
-
-// Define the type for the provider props
-interface CartProviderProps {
-  children: ReactNode;
-}
+import React, { createContext, useState, useEffect } from "react";
+import { CartItem, CartContextValue, CartProviderProps } from "../interface";
 
 // Create the context with default values
 export const CartContext = createContext<CartContextValue | undefined>(

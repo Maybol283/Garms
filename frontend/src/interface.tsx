@@ -1,11 +1,14 @@
+import { ReactNode } from "react";
+
 export interface ProductData {
   id: number;
   name: string;
-  price: string;
+  price: number;
   rating: number;
   reviewCount: number;
   description: string;
   details?: string[];
+  amountInStock: number;
   images: {
     id: number;
     imageSrc: string;
@@ -26,4 +29,29 @@ export interface CategoryData {
     id: string;
     options: { value: string; label: string; inStock: boolean }[];
   }[];
+}
+
+// Define the type for a cart item
+export interface CartItem {
+  id: number;
+  name: string;
+  price: number;
+  quantity: number;
+  image: { imageSrc: string; imageAlt: string };
+  color?: string;
+  size?: string;
+}
+
+// Define the type for the context value
+export interface CartContextValue {
+  cartItems: CartItem[];
+  addToCart: (item: CartItem) => void;
+  removeFromCart: (item: CartItem) => void;
+  clearCart: () => void;
+  getCartTotal: () => number;
+}
+
+// Define the type for the provider props
+export interface CartProviderProps {
+  children: ReactNode;
 }

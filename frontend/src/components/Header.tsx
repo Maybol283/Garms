@@ -37,7 +37,7 @@ export default function Header() {
       window.removeEventListener("scroll", handleScroll);
     };
   }, [scrollPosition]);
-
+  console.log(cart?.cartItems);
   return (
     <div
       className={`fixed left-0 right-0 top-0 z-10 transition-transform duration-300 ${
@@ -117,8 +117,8 @@ export default function Header() {
                       cart?.cartItems.map((product) => (
                         <li key={product.id} className="flex items-center py-6">
                           <img
-                            src={product.images[0].imageSrc}
-                            alt={product.images[0].imageAlt}
+                            src={product.image.imageSrc}
+                            alt={product.image.imageAlt}
                             className="h-16 w-16 flex-none rounded-md border border-gray-200"
                           />
                           <div className="ml-4 flex-auto">
