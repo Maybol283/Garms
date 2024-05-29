@@ -16,7 +16,7 @@ export interface ProductData {
     primary?: boolean;
   }[];
   sizes?: { name: string; inStock: boolean }[];
-  colors?: { name: string; sample: string; inStock: boolean }[];
+  colors: { name: string; sample: string; inStock: boolean }[];
   style?: { name: string; inStock: boolean }[];
 }
 
@@ -33,12 +33,13 @@ export interface CategoryData {
 
 // Define the type for a cart item
 export interface CartItem {
-  id: number;
+  id: string;
   name: string;
   price: number;
   quantity: number;
+  category: string;
   image: { imageSrc: string; imageAlt: string };
-  color?: string;
+  color: string;
   size?: string;
 }
 
@@ -47,6 +48,7 @@ export interface CartContextValue {
   cartItems: CartItem[];
   addToCart: (item: CartItem) => void;
   removeFromCart: (item: CartItem) => void;
+  removeAllFromCart: (item: CartItem) => void;
   clearCart: () => void;
   getCartTotal: () => number;
 }

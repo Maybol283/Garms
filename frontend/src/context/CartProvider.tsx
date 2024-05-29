@@ -45,6 +45,10 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
     }
   };
 
+  const removeAllFromCart = (item: CartItem) => {
+    setCartItems(cartItems.filter((cartItem) => cartItem.id !== item.id));
+  };
+
   const clearCart = () => {
     setCartItems([]);
   };
@@ -73,6 +77,7 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
         cartItems,
         addToCart,
         removeFromCart,
+        removeAllFromCart,
         clearCart,
         getCartTotal,
       }}

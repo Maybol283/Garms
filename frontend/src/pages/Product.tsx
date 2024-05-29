@@ -9,9 +9,10 @@ import Carousel from "../components/Carousel";
 import Breadcrumbs from "../components/BreadCrumbs";
 import { CartItem, ProductData } from "../interface";
 import { CartContext } from "../context/CartProvider";
+import { useParams } from "react-router";
 
 const product: ProductData = {
-  id: 1,
+  id: 100,
   name: "Basic Tee",
   price: 35,
   rating: 3.9,
@@ -19,21 +20,21 @@ const product: ProductData = {
   reviewCount: 512,
   images: [
     {
-      id: 1,
+      id: 1001,
       imageSrc:
         "https://tailwindui.com/img/ecommerce-images/product-page-01-featured-product-shot.jpg",
       imageAlt: "Back of women's Basic Tee in black.",
       primary: true,
     },
     {
-      id: 2,
+      id: 1002,
       imageSrc:
         "https://tailwindui.com/img/ecommerce-images/product-page-01-product-shot-01.jpg",
       imageAlt: "Side profile of women's Basic Tee in black.",
       primary: false,
     },
     {
-      id: 3,
+      id: 1003,
       imageSrc:
         "https://tailwindui.com/img/ecommerce-images/product-page-01-product-shot-02.jpg",
       imageAlt: "Front of women's Basic Tee in black.",
@@ -92,19 +93,19 @@ function classNames(...classes: (string | undefined)[]) {
 }
 
 export default function Product() {
-  const [selectedColor, setSelectedColor] = useState(
-    product.colors ? product.colors[0].name : undefined
-  );
+  const [selectedColor, setSelectedColor] = useState(product.colors[0].name);
   const [selectedSize, setSelectedSize] = useState(
     product.sizes ? product.sizes[0].name : undefined
   );
-  let cart = useContext(CartContext);
+  const { category = "" } = useParams<{ category: string | undefined }>();
+  const cart = useContext(CartContext);
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
     const productToAdd: CartItem = {
-      id: product.id,
+      id: product.id + " " + selectedColor + " ",
+      category: category,
       name: product.name,
       price: product.price,
       quantity: 1,
@@ -112,14 +113,12 @@ export default function Product() {
         imageSrc: product.images[0].imageSrc,
         imageAlt: product.images[0].imageAlt,
       },
+      color: selectedColor,
     };
-
-    if (selectedColor) {
-      productToAdd.color = selectedColor;
-    }
 
     if (selectedSize) {
       productToAdd.size = selectedSize;
+      productToAdd.id += selectedSize;
     }
 
     cart?.addToCart(productToAdd);
@@ -127,7 +126,7 @@ export default function Product() {
 
   return (
     <div className="bg-palette-1">
-      <div className="pb-16 py-24 pt-48">
+      <div className="pb-16 pt-48">
         <Breadcrumbs />
         <div className="mx-auto mt-8 max-w-2xl px-4 sm:px-6 lg:max-w-7xl lg:px-8">
           <div className="mx-auto lg:grid lg:auto-rows-min lg:grid-cols-12 lg:gap-x-8">
@@ -205,7 +204,7 @@ export default function Product() {
                         {product.colors.map((color) => (
                           <Radio
                             key={color.name}
-                            value={color}
+                            value={color.name}
                             aria-label={color.name}
                             className={({ focus, checked }) =>
                               classNames(
@@ -252,7 +251,7 @@ export default function Product() {
                         {product.sizes.map((size) => (
                           <Radio
                             key={size.name}
-                            value={size}
+                            value={size.name}
                             className={({ focus, checked }) =>
                               classNames(
                                 size.inStock

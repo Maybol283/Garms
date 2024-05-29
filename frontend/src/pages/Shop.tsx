@@ -38,7 +38,7 @@ const products: CategoryData[] = [
     ],
     items: [
       {
-        id: 1,
+        id: 100,
         name: "Basic Tee 8-Pack",
         price: 256,
         rating: 0,
@@ -65,7 +65,7 @@ const products: CategoryData[] = [
         ],
       },
       {
-        id: 2,
+        id: 200,
         name: "Basic Tee",
         price: 32,
         rating: 0,
@@ -117,7 +117,7 @@ const products: CategoryData[] = [
     ],
     items: [
       {
-        id: 1,
+        id: 300,
         name: "TestTrousers",
         price: 32,
         rating: 0,
@@ -167,7 +167,7 @@ const products: CategoryData[] = [
     ],
     items: [
       {
-        id: 3,
+        id: 400,
         name: "Watch",
         price: 32,
         rating: 0,
@@ -223,7 +223,7 @@ const products: CategoryData[] = [
     ],
     items: [
       {
-        id: 1,
+        id: 500,
         name: "Test-Shoes",
         price: 32,
         rating: 0,
@@ -405,7 +405,7 @@ export default function Shop() {
           </Dialog>
         </Transition.Root>
 
-        <Breadcrumbs margin={"-mb-12 pt-28"} />
+        <Breadcrumbs margin={"-mb-12 pt-32"} />
 
         <main className="mx-auto max-w-2xl px-4 lg:max-w-7xl lg:px-8 ">
           <div className="pb-10 pt-28">

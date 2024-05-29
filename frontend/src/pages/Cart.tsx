@@ -1,84 +1,155 @@
-import { Fragment } from "react";
-import {
-  MagnifyingGlassIcon,
-  ShoppingBagIcon,
-} from "@heroicons/react/24/outline";
-import { Popover, Transition } from "@headlessui/react";
+import { MinusCircleIcon, PlusCircleIcon } from "@heroicons/react/20/solid";
+import { CartContext } from "../context/CartProvider";
+import { useContext, useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
-const navigation = [
-  { name: "Women", href: "#" },
-  { name: "Men", href: "#" },
-  { name: "Company", href: "#" },
-  { name: "Stores", href: "#" },
-];
-const products = [
-  {
-    id: 1,
-    name: "Throwback Hip Bag",
-    href: "#",
-    color: "Salmon",
-    imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/shopping-cart-page-04-product-01.jpg",
-    imageAlt:
-      "Salmon orange fabric pouch with match zipper, gray zipper pull, and adjustable hip belt.",
-  },
-  {
-    id: 2,
-    name: "Medium Stuff Satchel",
-    href: "#",
-    color: "Blue",
-    imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/shopping-cart-page-04-product-02.jpg",
-    imageAlt:
-      "Front of satchel with blue canvas body, black straps and handle, drawstring top, and front zipper pouch.",
-  },
-  // More products...
-];
+export default function Cart() {
+  const cart = useContext(CartContext);
+  const [total, setTotal] = useState(0);
 
-export default function Example() {
+  useEffect(() => {
+    if (cart?.cartItems) {
+      const newTotal = cart.cartItems.reduce((acc, item) => {
+        return acc + item.price * item.quantity;
+      }, 0);
+      setTotal(newTotal);
+    }
+  }, [cart?.cartItems]);
+
   return (
-    <header className="relative bg-white">
-      <nav aria-label="Top" className="mx-auto max-w-7xl sm:px-6 lg:px-8">
-        <div className="relative border-b border-gray-200 px-4 pb-14 sm:static sm:px-0 sm:pb-0">
-          <div className="flex h-16 items-center justify-between">
-            {/* Logo */}
-            <div className="flex flex-1">
-              <a href="#">
-                <span className="sr-only">Your Company</span>
-                <img
-                  className="h-8 w-auto"
-                  src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                  alt=""
-                />
-              </a>
+    <div className="bg-palette-1 pt-24">
+      <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:px-0">
+        <h1 className="text-center text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+          Shopping Cart
+        </h1>
+
+        <form className="mt-12">
+          <section aria-labelledby="cart-heading">
+            <h2 id="cart-heading" className="sr-only">
+              Items in your shopping cart
+            </h2>
+
+            <ul
+              role="list"
+              className="divide-y divide-gray-200 border-b border-t border-gray-200"
+            >
+              {cart?.cartItems.map((product) => (
+                <li key={product.id} className="flex py-6">
+                  <div className="flex-shrink-0">
+                    <img
+                      src={product.image.imageSrc}
+                      alt={product.image.imageAlt}
+                      className="h-24 w-24 rounded-md object-cover object-center sm:h-32 sm:w-32"
+                    />
+                  </div>
+
+                  <div className="ml-4 flex flex-1 flex-col sm:ml-6">
+                    <div>
+                      <div className="flex justify-between">
+                        <h4 className="text-sm">
+                          <Link
+                            to={`Shop/${product.category}/${product.name}`}
+                            className="font-medium text-gray-700 hover:text-gray-800"
+                          >
+                            {product.name}
+                          </Link>
+                        </h4>
+
+                        <p className="ml-4 text-sm font-medium text-gray-900 text-center">
+                          £{product.price}
+                        </p>
+                      </div>
+                      <p className="mt-1 text-sm text-gray-500">
+                        {product.color}
+                      </p>
+                      <p className="mt-1 text-sm text-gray-500">
+                        {product.size}
+                      </p>
+                    </div>
+
+                    <div className="mt-4 flex flex-1 items-end justify-between">
+                      <div className="ml-4">
+                        <button
+                          type="button"
+                          className="text-sm font-medium text-palette-3 hover:text-palette-2"
+                        >
+                          <span
+                            onClick={() => {
+                              cart.removeAllFromCart(product);
+                            }}
+                          >
+                            Remove
+                          </span>
+                        </button>
+                      </div>
+                      <div className="flex flex-row gap-2">
+                        <PlusCircleIcon
+                          onClick={() => {
+                            cart.addToCart(product);
+                          }}
+                          className="size-6 hover:text-palette-3"
+                        />
+                        <p>{product.quantity}</p>
+                        <MinusCircleIcon
+                          onClick={() => {
+                            cart.removeFromCart(product);
+                          }}
+                          className="size-6 hover:text-palette-3 "
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </section>
+
+          {/* Order summary */}
+          <section aria-labelledby="summary-heading" className="mt-10">
+            <h2 id="summary-heading" className="sr-only">
+              Order summary
+            </h2>
+
+            <div>
+              <dl className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <dt className="text-base font-medium text-gray-900">
+                    Subtotal
+                  </dt>
+                  <dd className="ml-4 text-base font-medium text-gray-900">
+                    £{total}
+                  </dd>
+                </div>
+              </dl>
+              <p className="mt-1 text-sm text-gray-500">
+                Shipping and taxes will be calculated at checkout.
+              </p>
             </div>
 
-            <div className="absolute inset-x-0 bottom-0 overflow-x-auto border-t sm:static sm:border-t-0">
-              <div className="flex h-14 items-center space-x-8 px-4 sm:h-auto">
-                {navigation.map((item) => (
-                  <a
-                    key={item.name}
-                    href={item.href}
-                    className="text-sm font-medium text-gray-700 hover:text-gray-800"
-                  >
-                    {item.name}
-                  </a>
-                ))}
-              </div>
+            <div className="mt-10">
+              <button
+                type="submit"
+                className="w-full rounded-md border border-transparent bg-palette-3  px-4 py-3 text-base font-medium text-white shadow-sm hover:bg-palette-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50"
+              >
+                Checkout
+              </button>
             </div>
 
-            <div className="flex flex-1 items-center justify-end">
-              {/* Search */}
-              <a href="#" className="p-2 text-gray-400 hover:text-gray-500">
-                <span className="sr-only">Search</span>
-                <MagnifyingGlassIcon className="h-6 w-6" aria-hidden="true" />
-              </a>
-
-              {/* Cart */}
+            <div className="mt-6 text-center text-sm">
+              <p>
+                or{" "}
+                <Link
+                  to="../Shop"
+                  className="font-medium text-palette-3 hover:text-palette-2"
+                >
+                  Continue Shopping
+                  <span aria-hidden="true"> &rarr;</span>
+                </Link>
+              </p>
             </div>
-          </div>
-        </div>
-      </nav>
-    </header>
+          </section>
+        </form>
+      </div>
+    </div>
   );
 }

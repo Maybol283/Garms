@@ -37,7 +37,7 @@ export default function Header() {
       window.removeEventListener("scroll", handleScroll);
     };
   }, [scrollPosition]);
-  console.log(cart?.cartItems);
+
   return (
     <div
       className={`fixed left-0 right-0 top-0 z-10 transition-transform duration-300 ${
@@ -46,7 +46,7 @@ export default function Header() {
     >
       <header className="w-100 bg-palette-1 text-gray-600">
         <div
-          className="text-center  bg-palette-3 py-2 text-white"
+          className="text-center bg-palette-3 py-2 text-white"
           role="region"
           aria-label="Announcement"
         >
@@ -84,7 +84,7 @@ export default function Header() {
               </Link>
             ))}
           </div>
-          <Popover className="flow-root text-sm lg:relative  pr-4 md:pr-12">
+          <Popover className="text-sm lg:relative pr-4 md:pr-12">
             <Popover.Button className="group -m-2 flex items-center p-2">
               <ShoppingBagIcon
                 className="size-10 flex-shrink-0 text-gray-400 group-hover:text-palette-3"
@@ -104,7 +104,7 @@ export default function Header() {
               leaveFrom="opacity-100"
               leaveTo="opacity-0"
             >
-              <Popover.Panel className="absolute inset-x-0 top-16  bg-palette-3 pb-6 shadow-lg sm:px-2 lg:left-auto lg:right-0 lg:top-full lg:-mr-1.5 lg:mt-3 lg:w-80 lg:rounded-lg lg:ring-1 lg:ring-black lg:ring-opacity-5 m-0 -mt-1">
+              <Popover.Panel className="absolute inset-x-0 top-10 sm:top-8 bg-palette-3 pb-6 shadow-lg sm:px-2 lg:left-auto lg:right-0 lg:top-full lg:-mr-1.5 lg:mt-3 lg:w-80 lg:rounded-lg lg:ring-1 lg:ring-black lg:ring-opacity-5 m-0 -mt-1">
                 <h2 className="sr-only">Shopping Cart</h2>
 
                 <form className="mx-auto max-w-2xl px-4">
@@ -116,17 +116,26 @@ export default function Header() {
                     ) : (
                       cart?.cartItems.map((product) => (
                         <li key={product.id} className="flex items-center py-6">
-                          <img
-                            src={product.image.imageSrc}
-                            alt={product.image.imageAlt}
-                            className="h-16 w-16 flex-none rounded-md border border-gray-200"
-                          />
-                          <div className="ml-4 flex-auto">
-                            <h3 className="font-medium text-palette-1">
-                              <a href={product.href}>{product.name}</a>
-                            </h3>
-                            <p className="text-white">{product.color}</p>
-                          </div>
+                          <Link to={`Shop/${product.category}/${product.name}`}>
+                            <div className="flex place-around pb-4">
+                              <div className="h-16 w-16 flex-none rounded-md border border-gray-200">
+                                <img
+                                  src={product.image.imageSrc}
+                                  alt={product.image.imageAlt}
+                                />
+                              </div>
+                              <div className="ml-4 flex-auto">
+                                <h3 className="font-bold text-palette-1">
+                                  <p>{product.name}</p>
+                                </h3>
+                                <div className="text-white">
+                                  <p>{product.color}</p>
+                                  <p>{product.size}</p>
+                                  <p>Quanity: {product.quantity}</p>
+                                </div>
+                              </div>
+                            </div>
+                          </Link>
                         </li>
                       ))
                     )}
@@ -140,12 +149,12 @@ export default function Header() {
                   </button>
 
                   <p className="mt-6 text-center">
-                    <a
-                      href="#"
+                    <Link
+                      to="Cart"
                       className="text-sm font-medium text-gray-300 hover:text-palette-1"
                     >
                       View Shopping Bag
-                    </a>
+                    </Link>
                   </p>
                 </form>
               </Popover.Panel>
