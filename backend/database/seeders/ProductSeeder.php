@@ -15,7 +15,7 @@ class ProductSeeder extends Seeder
                 'name' => 'Basic Tee',
                 'description' => 'A basic t-shirt',
                 'price' => 19.99,
-                'category_id' => 1,
+                'category_name' => 'Shirts',
                 'created_at' => now(),
                 'updated_at' => now()
             ],
@@ -23,7 +23,7 @@ class ProductSeeder extends Seeder
                 'name' => 'Running Shoes',
                 'description' => 'Comfortable running shoes',
                 'price' => 49.99,
-                'category_id' => 2,
+                'category_name' => 'Shoes',
                 'created_at' => now(),
                 'updated_at' => now()
             ],
@@ -31,7 +31,7 @@ class ProductSeeder extends Seeder
                 'name' => 'Jeans',
                 'description' => 'Stylish jeans',
                 'price' => 39.99,
-                'category_id' => 3,
+                'category_name' => 'Trousers',
                 'created_at' => now(),
                 'updated_at' => now()
             ],
@@ -39,7 +39,7 @@ class ProductSeeder extends Seeder
                 'name' => 'Hat',
                 'description' => 'A stylish hat',
                 'price' => 14.99,
-                'category_id' => 4,
+                'category_name' => 'Accessories',
                 'created_at' => now(),
                 'updated_at' => now()
             ]
