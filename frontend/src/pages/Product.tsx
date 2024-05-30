@@ -49,7 +49,7 @@ const product: ProductData = {
     },
     {
       name: "Red",
-      sample: "red-500",
+      sample: "red-700",
 
       inStock: true,
     },
@@ -201,7 +201,7 @@ export default function Product() {
                         onChange={setSelectedColor}
                         className="flex items-center space-x-3"
                       >
-                        {product.colors.map((color) => (
+                        {product.colors.map((color, i) => (
                           <Radio
                             key={color.name}
                             value={color.name}
@@ -216,9 +216,7 @@ export default function Product() {
                           >
                             <span
                               aria-hidden="true"
-                              className={classNames(
-                                `bg-${color.sample} h-8 w-8 rounded-full border border-black border-opacity-10`
-                              )}
+                              className={`bg-${color.sample} h-8 w-8 rounded-full border border-black border-opacity-10`}
                             />
                           </Radio>
                         ))}

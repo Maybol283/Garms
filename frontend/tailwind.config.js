@@ -1,6 +1,15 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  mode: "jit",
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
+  safelist: [
+    {
+      pattern: /bg-(\w){3,6}(-[\d]{3})?/,
+    },
+    {
+      pattern: /ring-(\w){3,6}(-[\d]{3})?/,
+    },
+  ],
   theme: {
     extend: {
       colors: {
