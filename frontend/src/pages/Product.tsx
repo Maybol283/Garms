@@ -201,7 +201,7 @@ export default function Product() {
                         onChange={setSelectedColor}
                         className="flex items-center space-x-3"
                       >
-                        {product.colors.map((color, i) => (
+                        {product.colors.map((color) => (
                           <Radio
                             key={color.name}
                             value={color.name}

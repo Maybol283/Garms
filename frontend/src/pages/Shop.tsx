@@ -5,6 +5,7 @@ import { ChevronDownIcon, PlusIcon } from "@heroicons/react/20/solid";
 import { useParams, Link } from "react-router-dom";
 import Breadcrumbs from "../components/BreadCrumbs";
 import { CategoryData } from "../interface";
+import { getCategory } from "../ApiCalls";
 
 const products: CategoryData[] = [
   {
@@ -273,6 +274,8 @@ export default function Shop() {
       return next;
     });
   }
+
+  console.log(getCategory("test"));
 
   const filteredProducts =
     categoryData?.items.filter((product) => {
