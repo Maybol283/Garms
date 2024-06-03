@@ -4,11 +4,10 @@ export interface ProductData {
   id: number;
   name: string;
   price: number;
-  rating: number;
-  reviewCount: number;
+  rating?: number;
+  reviewCount?: number;
   description: string;
   details?: string[];
-  amountInStock: number;
   images: {
     id: number;
     imageSrc: string;

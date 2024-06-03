@@ -16,7 +16,6 @@ const product: ProductData = {
   name: "Basic Tee",
   price: 35,
   rating: 3.9,
-  amountInStock: 100,
   reviewCount: 512,
   images: [
     {
@@ -152,7 +151,7 @@ export default function Product() {
                       <StarIcon
                         key={rating}
                         className={classNames(
-                          product.rating > rating
+                          product.rating && product.rating > rating
                             ? "text-palette-3"
                             : "text-gray-200",
                           "h-5 w-5 flex-shrink-0 hover:text-palette-3"

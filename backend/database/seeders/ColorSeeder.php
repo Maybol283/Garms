@@ -10,9 +10,9 @@ class ColorSeeder extends Seeder
     public function run()
     {
         DB::table('colors')->insert([
-            ['name' => 'Red', 'hex_value' => '#FF0000'],
-            ['name' => 'Blue', 'hex_value' => '#0000FF'],
-            ['name' => 'Black', 'hex_value' => '#000000'],
+            ['name' => 'Red', 'sample' => 'red-500'],
+            ['name' => 'Blue', 'sample' => 'blue-500'],
+            ['name' => 'Black', 'sample' => 'black'],
         ]);
     }
 }

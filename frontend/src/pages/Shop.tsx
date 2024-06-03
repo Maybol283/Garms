@@ -1,10 +1,10 @@
-import { Fragment, useState } from "react";
+import { Fragment, useState, useEffect } from "react";
 import { Dialog, Disclosure, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { ChevronDownIcon, PlusIcon } from "@heroicons/react/20/solid";
 import { useParams, Link } from "react-router-dom";
 import Breadcrumbs from "../components/BreadCrumbs";
-import { CategoryData } from "../interface";
+import { CategoryData, ProductData } from "../interface";
 import { getCategory } from "../ApiCalls";
 
 const products: CategoryData[] = [
@@ -37,55 +37,7 @@ const products: CategoryData[] = [
         ],
       },
     ],
-    items: [
-      {
-        id: 100,
-        name: "Basic Tee 8-Pack",
-        price: 256,
-        rating: 0,
-        reviewCount: 3.5,
-        amountInStock: 100,
-        description:
-          "Get the full lineup of our Basic Tees. Have a fresh shirt all week, and an extra for laundry day.",
-        images: [
-          {
-            id: 1,
-            imageSrc:
-              "https://tailwindui.com/img/ecommerce-images/category-page-02-image-card-01.jpg",
-            imageAlt:
-              "Eight shirts arranged on table in black, olive, grey, blue, white, red, mustard, and green.",
-          },
-        ],
-        sizes: [
-          { name: "xl", inStock: true },
-          { name: "sm", inStock: true },
-        ],
-        colors: [
-          { name: "Purple", sample: "purple", inStock: true },
-          { name: "Beige", sample: "slate", inStock: true },
-        ],
-      },
-      {
-        id: 200,
-        name: "Basic Tee",
-        price: 32,
-        rating: 0,
-        reviewCount: 3.5,
-        amountInStock: 100,
-        description:
-          "Look like a visionary CEO and wear the same black t-shirt every day.",
-        images: [
-          {
-            id: 1,
-            imageSrc:
-              "https://tailwindui.com/img/ecommerce-images/category-page-02-image-card-02.jpg",
-            imageAlt: "Front of plain black t-shirt.",
-          },
-        ],
-        sizes: [{ name: "xl", inStock: true }],
-        colors: [{ name: "Purple", sample: "purple", inStock: true }],
-      },
-    ],
+    items: [],
   },
   {
     id: 2,
@@ -116,28 +68,7 @@ const products: CategoryData[] = [
         ],
       },
     ],
-    items: [
-      {
-        id: 300,
-        name: "TestTrousers",
-        price: 32,
-        rating: 0,
-        reviewCount: 3.5,
-        amountInStock: 100,
-        description:
-          "Look like a visionary CEO and wear the same black t-shirt every day.",
-        images: [
-          {
-            id: 1,
-            imageSrc:
-              "https://images.unsplash.com/photo-1519211777646-3a7ccf759b64?q=80&w=1885&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-            imageAlt: "Front of plain black t-shirt.",
-          },
-        ],
-        sizes: [{ name: "34", inStock: true }],
-        colors: [{ name: "Purple", sample: "purple", inStock: true }],
-      },
-    ],
+    items: [],
   },
   {
     id: 3,
@@ -166,28 +97,7 @@ const products: CategoryData[] = [
         ],
       },
     ],
-    items: [
-      {
-        id: 400,
-        name: "Watch",
-        price: 32,
-        rating: 0,
-        reviewCount: 3.5,
-        amountInStock: 100,
-        description:
-          "Look like a visionary CEO and wear the same black t-shirt every day.",
-        images: [
-          {
-            id: 1,
-            imageSrc:
-              "https://images.unsplash.com/photo-1524805444758-089113d48a6d?q=80&w=1888&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-            imageAlt: "Front of plain black t-shirt.",
-          },
-        ],
-        colors: [{ name: "Purple", sample: "purple", inStock: true }],
-        style: [{ name: "Watches", inStock: true }],
-      },
-    ],
+    items: [],
   },
   {
     id: 4,
@@ -222,31 +132,7 @@ const products: CategoryData[] = [
         ],
       },
     ],
-    items: [
-      {
-        id: 500,
-        name: "Test-Shoes",
-        price: 32,
-        rating: 0,
-        reviewCount: 3.5,
-        amountInStock: 100,
-        description:
-          "Look like a visionary CEO and wear the same black t-shirt every day.",
-        images: [
-          {
-            id: 1,
-            imageSrc:
-              "https://images.unsplash.com/photo-1524805444758-089113d48a6d?q=80&w=1888&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-            imageAlt: "Front of plain black t-shirt.",
-          },
-        ],
-        sizes: [
-          { name: "3", inStock: true },
-          { name: "4", inStock: true },
-        ],
-        colors: [{ name: "Purple", sample: "purple", inStock: true }],
-      },
-    ],
+    items: [],
   },
 ];
 
@@ -258,8 +144,32 @@ export default function Shop() {
   const { category = "" } = useParams<{ category: string | undefined }>();
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const [Filters, setFilters] = useState<Set<string>>(new Set());
+  const [updatedProducts, setUpdatedProducts] = useState(products);
 
-  const categoryData = products.find(
+  console.log(updatedProducts);
+
+  useEffect(() => {
+    async function fetchData() {
+      const response: ProductData[] = await getCategory(category);
+
+      // Find and update the target category after fetching data
+      const targetCategory = products.find(
+        (prod) => prod.category === category
+      );
+      if (targetCategory) {
+        targetCategory.items = response;
+        setUpdatedProducts((prevProducts) =>
+          prevProducts.map((prod) =>
+            prod.category === category ? { ...prod, items: response } : prod
+          )
+        );
+      }
+    }
+
+    fetchData();
+  }, [category]);
+
+  const categoryData = updatedProducts.find(
     (product) => product.category.toLowerCase() === category.toLowerCase()
   );
 
@@ -274,8 +184,6 @@ export default function Shop() {
       return next;
     });
   }
-
-  console.log(getCategory("test"));
 
   const filteredProducts =
     categoryData?.items.filter((product) => {
@@ -463,7 +371,7 @@ export default function Shop() {
                                 defaultValue={option.value}
                                 type="checkbox"
                                 onChange={(e) =>
-                                  updateFilters(e.target.checked, option.value)
+                                  updateFilters(e.target.checked, option.label)
                                 }
                                 className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
                               />

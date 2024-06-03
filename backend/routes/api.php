@@ -10,3 +10,5 @@ Route::get('/user', function (Request $request) {
 
 
 Route::get('/category', [InventoryController::class, 'categoryItems']);
+
+Route::get('/item', [InventoryController::class, 'Item']);

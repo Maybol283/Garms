@@ -12,6 +12,7 @@ import { CartContext } from "../context/CartProvider.tsx";
 const navigation = [
   { name: "Shirts", href: "Shop/Shirts" },
   { name: "Trousers", href: "Shop/Trousers" },
+  { name: "Shoes", href: "Shop/Shoes" },
   { name: "Accessories", href: "Shop/Accessories" },
   { name: "Mission", href: "Mission" },
 ];
