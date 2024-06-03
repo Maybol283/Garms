@@ -1,7 +1,7 @@
 import { useState, useEffect, ReactNode } from "react";
 
 interface CarouselProps {
-  items: (ReactNode | string)[];
+  items: (ReactNode | string | undefined)[];
   styles?: string;
 }
 

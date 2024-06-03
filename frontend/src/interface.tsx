@@ -14,7 +14,7 @@ export interface ProductData {
     imageAlt: string;
     primary?: boolean;
   }[];
-  sizes?: { name: string; inStock: boolean }[];
+  sizes: { name: string; inStock: boolean }[];
   colors: { name: string; sample: string; inStock: boolean }[];
   style?: { name: string; inStock: boolean }[];
 }

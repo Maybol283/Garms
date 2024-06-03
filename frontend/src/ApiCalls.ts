@@ -23,6 +23,8 @@ export async function getCategory(category: string): Promise<ProductData[]> {
 export async function getItem(item: string): Promise<ProductData[]> {
   try {
     const url = `${URL}/api/item?item=${item}`;
+    const fixed = encodeURI(url);
+    console.log(fixed);
     const response = await axios.get<ProductData[]>(url);
 
     return response.data;

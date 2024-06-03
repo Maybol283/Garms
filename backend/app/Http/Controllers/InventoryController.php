@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use \Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 use App\Models\Product;
 
@@ -14,7 +15,32 @@ class InventoryController extends Controller
             ->where('category_name', $category)
             ->get();
 
-        $formattedProducts = $products->map(function ($product) {
+        $formattedProducts = $this->formatProducts($products);
+
+        return response()->json(['items' => $formattedProducts]);
+    }
+
+    public function Item(Request $request)
+    {
+        $item = $request->query('item');
+        Log::info('Received item:', ['item' => $item]); // Log the received item
+
+        $products = Product::with(['variants.color', 'variants.size', 'images'])
+            ->where('name', $item)
+            ->get();
+
+        if ($products->isEmpty()) {
+            return response()->json(['message' => 'Item not found'], 404);
+        }
+
+        $formattedProducts = $this->formatProducts($products);
+
+        return response()->json(['items' => $formattedProducts]);
+    }
+
+    private function formatProducts($products)
+    {
+        return $products->map(function ($product) {
             $sizes = [];
             $colors = [];
             $images = [];
@@ -47,30 +73,23 @@ class InventoryController extends Controller
                 'price' => (float) $product->price,
                 'description' => $product->description,
                 'images' => $images,
-                'sizes' => uniqueVariants($sizes, 'name'),
-                'colors' => uniqueVariants($colors, 'name'),
+                'sizes' => $this->uniqueVariants($sizes, 'name'),
+                'colors' => $this->uniqueVariants($colors, 'name'),
             ];
         });
-
-        return response()->json(['items' => $formattedProducts]);
     }
 
-    public function Item(Request $request)
+    private function uniqueVariants($variants, $key)
     {
-        $item = $request->query('item');
-    }
-}
+        $tempArray = [];
+        $keyArray = [];
 
-function uniqueVariants($variants, $key)
-{
-    $tempArray = [];
-    $keyArray = [];
-
-    foreach ($variants as $variant) {
-        if (!in_array($variant[$key], $keyArray)) {
-            $keyArray[] = $variant[$key];
-            $tempArray[] = $variant;
+        foreach ($variants as $variant) {
+            if (!in_array($variant[$key], $keyArray)) {
+                $keyArray[] = $variant[$key];
+                $tempArray[] = $variant;
+            }
         }
+        return $tempArray;
     }
-    return $tempArray;
 }

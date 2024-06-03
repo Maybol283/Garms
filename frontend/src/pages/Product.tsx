@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { StarIcon } from "@heroicons/react/20/solid";
 import { Radio, RadioGroup } from "@headlessui/react";
 import {
@@ -10,68 +10,8 @@ import Breadcrumbs from "../components/BreadCrumbs";
 import { CartItem, ProductData } from "../interface";
 import { CartContext } from "../context/CartProvider";
 import { useParams } from "react-router";
+import { getItem } from "../ApiCalls";
 
-const product: ProductData = {
-  id: 100,
-  name: "Basic Tee",
-  price: 35,
-  rating: 3.9,
-  reviewCount: 512,
-  images: [
-    {
-      id: 1001,
-      imageSrc:
-        "https://tailwindui.com/img/ecommerce-images/product-page-01-featured-product-shot.jpg",
-      imageAlt: "Back of women's Basic Tee in black.",
-      primary: true,
-    },
-    {
-      id: 1002,
-      imageSrc:
-        "https://tailwindui.com/img/ecommerce-images/product-page-01-product-shot-01.jpg",
-      imageAlt: "Side profile of women's Basic Tee in black.",
-      primary: false,
-    },
-    {
-      id: 1003,
-      imageSrc:
-        "https://tailwindui.com/img/ecommerce-images/product-page-01-product-shot-02.jpg",
-      imageAlt: "Front of women's Basic Tee in black.",
-      primary: false,
-    },
-  ],
-  colors: [
-    {
-      name: "Black",
-      sample: "black",
-      inStock: true,
-    },
-    {
-      name: "Red",
-      sample: "red-700",
-
-      inStock: true,
-    },
-  ],
-  sizes: [
-    { name: "XXS", inStock: true },
-    { name: "XS", inStock: true },
-    { name: "S", inStock: true },
-    { name: "M", inStock: true },
-    { name: "L", inStock: true },
-    { name: "XL", inStock: false },
-  ],
-  description: `
-    <p>The Basic tee is an honest new take on a classic. The tee uses super soft, pre-shrunk cotton for true comfort and a dependable fit. They are hand cut and sewn locally, with a special dye technique that gives each tee it's own look.</p>
-    <p>Looking to stock your closet? The Basic tee also comes in a 3-pack or 5-pack at a bundle discount.</p>
-  `,
-  details: [
-    "Only the best materials",
-    "Ethically and locally made",
-    "Pre-washed and pre-shrunk",
-    "Machine wash cold with similar colors",
-  ],
-};
 const policies = [
   {
     name: "International delivery",
@@ -85,19 +25,52 @@ const policies = [
   },
 ];
 
-let imageSources = product.images.map((image) => image.imageSrc);
-
 function classNames(...classes: (string | undefined)[]) {
   return classes.filter(Boolean).join(" ");
 }
 
 export default function Product() {
-  const [selectedColor, setSelectedColor] = useState(product.colors[0].name);
-  const [selectedSize, setSelectedSize] = useState(
-    product.sizes ? product.sizes[0].name : undefined
-  );
+  const [product, setProduct] = useState<ProductData | null>(null);
+  const [selectedColor, setSelectedColor] = useState<string>("");
+  const [selectedSize, setSelectedSize] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
   const { category = "" } = useParams<{ category: string | undefined }>();
+  const { item = "" } = useParams<{ item: string | undefined }>();
   const cart = useContext(CartContext);
+
+  console.log(category);
+  let imageSources = product?.images.map((image) => image.imageSrc);
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        let response = await getItem(item);
+        setProduct(response[0]);
+        setSelectedColor(response[0].colors[0]?.name);
+        setSelectedSize(response[0].sizes[0]?.name);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching item:", error);
+        setError("Failed to fetch product data.");
+        setLoading(false);
+      }
+    }
+
+    fetchData();
+  }, []);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>{error}</div>;
+  }
+
+  if (!product) {
+    return <div>No product found.</div>;
+  }
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -143,7 +116,7 @@ export default function Product() {
                 <h2 className="sr-only">Reviews</h2>
                 <div className="flex items-center">
                   <p className="text-sm text-gray-700">
-                    {product.rating}
+                    {product?.rating}
                     <span className="sr-only"> out of 5 stars</span>
                   </p>
                   <div className="ml-1 flex items-center">
@@ -151,7 +124,7 @@ export default function Product() {
                       <StarIcon
                         key={rating}
                         className={classNames(
-                          product.rating && product.rating > rating
+                          product?.rating && product.rating > rating
                             ? "text-palette-3"
                             : "text-gray-200",
                           "h-5 w-5 flex-shrink-0 hover:text-palette-3"
