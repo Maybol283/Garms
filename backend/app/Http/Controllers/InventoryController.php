@@ -25,9 +25,14 @@ class InventoryController extends Controller
         $item = $request->query('item');
         Log::info('Received item:', ['item' => $item]); // Log the received item
 
-        $products = Product::with(['variants.color', 'variants.size', 'images'])
+        $products = Product::with([
+            'variants.color',
+            'variants.size',
+            'images',
+        ])
             ->where('name', $item)
             ->get();
+
 
         if ($products->isEmpty()) {
             return response()->json(['message' => 'Item not found'], 404);
@@ -35,7 +40,7 @@ class InventoryController extends Controller
 
         $formattedProducts = $this->formatProducts($products);
 
-        return response()->json(['items' => $formattedProducts]);
+        return response()->json($formattedProducts);
     }
 
     private function formatProducts($products)
@@ -67,13 +72,18 @@ class InventoryController extends Controller
                 ];
             }
 
+
+            // Combine and remove duplicate sizes, setting inStock for product variants
+            $categorySizes = $product->category->sizes;
+            $combinedSizes = $this->combineSizes($sizes, $categorySizes);
+
             return [
                 'id' => $product->id,
                 'name' => $product->name,
                 'price' => (float) $product->price,
                 'description' => $product->description,
                 'images' => $images,
-                'sizes' => $this->uniqueVariants($sizes, 'name'),
+                'sizes' => $combinedSizes,
                 'colors' => $this->uniqueVariants($colors, 'name'),
             ];
         });
@@ -91,5 +101,22 @@ class InventoryController extends Controller
             }
         }
         return $tempArray;
+    }
+
+    // Helper function to combine and de-duplicate sizes
+    private function combineSizes($productSizes, $categorySizes)
+    {
+        $combined = [];
+        $productSizeNames = array_map(fn ($size) => $size['name'], $productSizes);
+
+        foreach ($categorySizes as $categorySize) {
+            $sizeFound = in_array($categorySize->name, $productSizeNames);
+            $combined[] = [
+                'name' => $categorySize->name,
+                'inStock' => $sizeFound,
+            ];
+        }
+
+        return $combined;
     }
 }

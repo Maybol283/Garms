@@ -10,18 +10,20 @@ class SizeSeeder extends Seeder
     public function run()
     {
         DB::table('sizes')->insert([
-            ['name' => 'XS', 'size_type' => 'shirt'],
-            ['name' => 'S', 'size_type' => 'shirt'],
-            ['name' => 'M', 'size_type' => 'shirt'],
-            ['name' => 'L', 'size_type' => 'shirt'],
-            ['name' => 'XL', 'size_type' => 'shirt'],
-            ['name' => '6', 'size_type' => 'shoe'],
-            ['name' => '7', 'size_type' => 'shoe'],
-            ['name' => '8', 'size_type' => 'shoe'],
-            ['name' => '28', 'size_type' => 'trouser'],
-            ['name' => '30', 'size_type' => 'trouser'],
-            ['name' => '32', 'size_type' => 'trouser'],
-            ['name' => '34', 'size_type' => 'trouser'],
+            ['name' => 'XS', 'category_name' => 'Shirts'],
+            ['name' => 'S', 'category_name' => 'Shirts'],
+            ['name' => 'M', 'category_name' => 'Shirts'],
+            ['name' => 'L', 'category_name' => 'Shirts'],
+            ['name' => 'XL', 'category_name' => 'Shirts'],
+            ['name' => '6', 'category_name' => 'Shoes'],
+            ['name' => '7', 'category_name' => 'Shoes'],
+            ['name' => '8', 'category_name' => 'Shoes'],
+            ['name' => '9', 'category_name' => 'Shoes'],
+            ['name' => '10', 'category_name' => 'Shoes'],
+            ['name' => '28', 'category_name' => 'Trousers'],
+            ['name' => '30', 'category_name' => 'Trousers'],
+            ['name' => '32', 'category_name' => 'Trousers'],
+            ['name' => '34', 'category_name' => 'Trousers'],
         ]);
     }
 }

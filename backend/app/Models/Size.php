@@ -16,4 +16,10 @@ class Size extends Model
 
         return $this->hasMany(ProductVariant::class);
     }
+
+    public function category()
+    {
+
+        return $this->belongsTo(Category::class, 'category_name', 'name');
+    }
 }

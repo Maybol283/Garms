@@ -11,7 +11,8 @@ class CreateSizesTable extends Migration
         Schema::create('sizes', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('size_type'); // e.g., 'shirt', 'shoe', 'trouser'
+            $table->string('category_name');
+            $table->foreign('category_name')->references('name')->on('categories')->onDelete('cascade');
             $table->timestamps();
         });
     }

@@ -1,7 +1,7 @@
 import { useState, useEffect, ReactNode } from "react";
 
 interface CarouselProps {
-  items: (ReactNode | string | undefined)[];
+  items?: (ReactNode | string | undefined)[];
   styles?: string;
 }
 
@@ -14,13 +14,15 @@ const Carousel: React.FC<CarouselProps> = ({ items, styles }) => {
   };
 
   const handlePrevClick = () => {
-    const newIndex = currentIndex === 0 ? items.length - 1 : currentIndex - 1;
+    const newIndex =
+      currentIndex === 0 && items ? items.length - 1 : currentIndex - 1;
     changeSlide(newIndex);
     pauseAutoScroll();
   };
 
   const handleNextClick = () => {
-    const newIndex = currentIndex === items.length - 1 ? 0 : currentIndex + 1;
+    const newIndex =
+      items && currentIndex === items.length - 1 ? 0 : currentIndex + 1;
     changeSlide(newIndex);
     pauseAutoScroll();
   };
@@ -36,7 +38,7 @@ const Carousel: React.FC<CarouselProps> = ({ items, styles }) => {
   };
 
   useEffect(() => {
-    if (!isPaused) {
+    if (!isPaused && items?.length) {
       const interval = setInterval(() => {
         setCurrentIndex((prevIndex) =>
           prevIndex === items.length - 1 ? 0 : prevIndex + 1
@@ -45,57 +47,58 @@ const Carousel: React.FC<CarouselProps> = ({ items, styles }) => {
 
       return () => clearInterval(interval); // Clean up interval on unmount
     }
-  }, [isPaused, items.length]);
+  }, [isPaused, items]);
 
-  return (
-    <div className={`relative w-full max-w-2xl mx-auto ${styles}`}>
-      <div className="relative flex flex-row items-center gap-24 w-full max-w-2xl mx-auto">
-        <button
-          className="hidden md:inline-block absolute -left-10 hover:bg-palette-3 hover:text-white focus:outline-none bg-gray-800 text-white p-2 rounded-full z-9"
-          onClick={handlePrevClick}
-        >
-          &lt;
-        </button>
-        <div className="w-full overflow-hidden">
-          <div
-            className="flex transition-transform duration-500"
-            style={{ transform: `translateX(-${currentIndex * 100}%)` }}
+  if (items && items.length > 0)
+    return (
+      <div className={`relative w-full max-w-2xl mx-auto ${styles}`}>
+        <div className="relative flex flex-row items-center gap-24 w-full max-w-2xl mx-auto">
+          <button
+            className="hidden md:inline-block absolute -left-10 hover:bg-palette-3 hover:text-white focus:outline-none bg-gray-800 text-white p-2 rounded-full z-9"
+            onClick={handlePrevClick}
           >
-            {items.map((item, index) => (
-              <div key={index} className="min-w-full box-border">
-                {typeof item === "string" ? (
-                  <img
-                    src={item}
-                    alt={`Slide ${index}`}
-                    className="w-full h-full object-cover"
-                  />
-                ) : (
-                  item
-                )}
-              </div>
-            ))}
+            &lt;
+          </button>
+          <div className="w-full overflow-hidden">
+            <div
+              className="flex transition-transform duration-500"
+              style={{ transform: `translateX(-${currentIndex * 100}%)` }}
+            >
+              {items?.map((item, index) => (
+                <div key={index} className="min-w-full box-border">
+                  {typeof item === "string" ? (
+                    <img
+                      src={item}
+                      alt={`Slide ${index}`}
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    item
+                  )}
+                </div>
+              ))}
+            </div>
           </div>
+          <button
+            className="hidden md:inline-block absolute -right-10 hover:bg-palette-3 hover:text-white focus:outline-none bg-gray-800 text-white p-2 rounded-full z-9"
+            onClick={handleNextClick}
+          >
+            &gt;
+          </button>
         </div>
-        <button
-          className="hidden md:inline-block absolute -right-10 hover:bg-palette-3 hover:text-white focus:outline-none bg-gray-800 text-white p-2 rounded-full z-9"
-          onClick={handleNextClick}
-        >
-          &gt;
-        </button>
+        <div className="flex justify-center mt-4">
+          {items.map((_, index) => (
+            <span
+              key={index}
+              className={`block h-1 cursor-pointer rounded-2xl mx-1 transition-all content-[''] ${
+                currentIndex === index ? "w-8 bg-gray-800" : "w-4 bg-gray-400"
+              }`}
+              onClick={() => handleLineClick(index)}
+            />
+          ))}
+        </div>
       </div>
-      <div className="flex justify-center mt-4">
-        {items.map((_, index) => (
-          <span
-            key={index}
-            className={`block h-1 cursor-pointer rounded-2xl mx-1 transition-all content-[''] ${
-              currentIndex === index ? "w-8 bg-gray-800" : "w-4 bg-gray-400"
-            }`}
-            onClick={() => handleLineClick(index)}
-          />
-        ))}
-      </div>
-    </div>
-  );
+    );
 };
 
 export default Carousel;

@@ -47,6 +47,7 @@ export default function Product() {
       try {
         let response = await getItem(item);
         setProduct(response[0]);
+        console.log(response[0]);
         setSelectedColor(response[0].colors[0]?.name);
         setSelectedSize(response[0].sizes[0]?.name);
         setLoading(false);
