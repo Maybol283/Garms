@@ -41,6 +41,13 @@ export interface CartItem {
   color: string;
   size?: string;
 }
+// purchased item
+export interface PurchaseItem {
+  id: string;
+  quantity: number;
+  color: string;
+  size?: string;
+}
 
 // Define the type for the context value
 export interface CartContextValue {

@@ -62,7 +62,11 @@ export default function Product() {
   }, []);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="h-screen bg-palette-1 pt-48 m-auto title-text text-center">
+        Loading...
+      </div>
+    );
   }
 
   if (error) {

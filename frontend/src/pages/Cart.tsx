@@ -9,9 +9,7 @@ export default function Cart() {
 
   useEffect(() => {
     if (cart?.cartItems) {
-      const newTotal = cart.cartItems.reduce((acc, item) => {
-        return acc + item.price * item.quantity;
-      }, 0);
+      const newTotal = cart.getCartTotal();
       setTotal(newTotal);
     }
   }, [cart?.cartItems]);

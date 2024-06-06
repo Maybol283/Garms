@@ -9,6 +9,7 @@ import Product from "./pages/Product";
 import { CartProvider } from "./context/CartProvider";
 import ShopBase from "./pages/ShopBase";
 import Cart from "./pages/Cart";
+import Checkout from "./pages/Checkout";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
               <Route path="/Shop" element={<ShopBase />} />
               <Route path="/Shop/:category" element={<Shop />} />
               <Route path="/Shop/:category/:item" element={<Product />} />
+              <Route path="/Checkout" element={<Checkout />} />
             </Routes>
           </div>
           <Footer />

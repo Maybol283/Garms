@@ -14,7 +14,8 @@ class DatabaseSeeder extends Seeder
             SizeSeeder::class,
             ProductSeeder::class,
             ImageSeeder::class,
-            ProductVariantSeeder::class,
         ]);
+
+        \App\Models\ProductVariant::factory()->count(100)->create();
     }
 }

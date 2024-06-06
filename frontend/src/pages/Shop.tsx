@@ -6,6 +6,7 @@ import { useParams, Link } from "react-router-dom";
 import Breadcrumbs from "../components/BreadCrumbs";
 import { CategoryData, ProductData } from "../interface";
 import { getCategory } from "../ApiCalls";
+import { useSpring, animated } from "@react-spring/web";
 
 const products: CategoryData[] = [
   {
@@ -145,7 +146,17 @@ export default function Shop() {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const [Filters, setFilters] = useState<Set<string>>(new Set());
   const [updatedProducts, setUpdatedProducts] = useState(products);
-
+  const [loading, setLoading] = useState(true);
+  const fadeOut = useSpring({
+    from: {
+      opacity: 0,
+      y: "6%",
+    },
+    to: {
+      opacity: 1,
+      y: 0,
+    },
+  });
   console.log(updatedProducts);
 
   useEffect(() => {
@@ -166,7 +177,9 @@ export default function Shop() {
       }
     }
 
-    fetchData();
+    fetchData().then(() => {
+      setLoading(false);
+    });
   }, [category]);
 
   const categoryData = updatedProducts.find(
@@ -399,37 +412,48 @@ export default function Shop() {
                 Products
               </h2>
 
-              <div className="transition-all ease-in-out grid grid-cols-1 gap-y-4 sm:grid-cols-2 sm:gap-x-6 sm:gap-y-10 lg:gap-x-8 xl:grid-cols-3">
-                {filteredProducts.map((product) => (
-                  <Link to={product.name} state={{ product }} key={product.id}>
-                    <div
+              {!loading ? (
+                <div className="transition-all ease-in-out grid grid-cols-1 gap-y-4 sm:grid-cols-2 sm:gap-x-6 sm:gap-y-10 lg:gap-x-8 xl:grid-cols-3">
+                  {filteredProducts.map((product) => (
+                    <Link
+                      to={product.name}
+                      state={{ product }}
                       key={product.id}
-                      className="group relative flex flex-col overflow-hidden rounded-lg border border-gray-200 bg-white"
                     >
-                      <div className="aspect-h-4 aspect-w-3 bg-gray-200 sm:aspect-none group-hover:opacity-75 sm:h-96">
-                        <img
-                          src={product.images[0].imageSrc}
-                          alt={product.images[0].imageSrc}
-                          className="h-full w-full object-cover object-center sm:h-full sm:w-full"
-                        />
-                      </div>
-                      <div className="flex flex-1 flex-col space-y-2 p-4">
-                        <h3 className="text-sm font-medium text-gray-900">
-                          {product.name}
-                        </h3>
-                        <p className="text-sm text-gray-500">
-                          {product.description}
-                        </p>
-                        <div className="flex flex-1 flex-col justify-end">
-                          <p className="text-base font-medium text-gray-900">
-                            {product.price}
-                          </p>
+                      <animated.div
+                        style={fadeOut}
+                        key={product.id}
+                        className="group relative flex flex-col overflow-hidden rounded-lg border border-gray-200 bg-white"
+                      >
+                        <div className="aspect-h-4 aspect-w-3 bg-gray-200 sm:aspect-none group-hover:opacity-75 sm:h-96">
+                          <img
+                            src={product.images[0].imageSrc}
+                            alt={product.images[0].imageSrc}
+                            className="h-full w-full object-cover object-center sm:h-full sm:w-full"
+                          />
                         </div>
-                      </div>
-                    </div>
-                  </Link>
-                ))}
-              </div>
+                        <div className="flex flex-1 flex-col space-y-2 p-4">
+                          <h3 className="text-sm font-medium text-gray-900">
+                            {product.name}
+                          </h3>
+                          <p className="text-sm text-gray-500">
+                            {product.description}
+                          </p>
+                          <div className="flex flex-1 flex-col justify-end">
+                            <p className="text-base font-medium text-gray-900">
+                              {product.price}
+                            </p>
+                          </div>
+                        </div>
+                      </animated.div>
+                    </Link>
+                  ))}
+                </div>
+              ) : (
+                <h1 className="subtitle-text justify-center align-center">
+                  Loading
+                </h1>
+              )}
             </section>
           </div>
         </main>
