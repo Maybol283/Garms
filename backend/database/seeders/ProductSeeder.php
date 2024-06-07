@@ -68,7 +68,7 @@ class ProductSeeder extends Seeder
             [
                 'id' => 23,
                 'name' => 'Sliders',
-                'description' => 'A cheap and cheerful pair of sliders',
+                'description' => 'A cheap pair of sliders',
                 'price' => 12.99,
                 'category_name' => 'Shoes',
                 'created_at' => now(),
@@ -104,7 +104,7 @@ class ProductSeeder extends Seeder
             [
                 'id' => 33,
                 'name' => 'Linen Trousers',
-                'description' => 'A comfey pair of linen trousers',
+                'description' => 'A pair of linen trousers',
                 'price' => 17.99,
                 'category_name' => 'Trousers',
                 'created_at' => now(),

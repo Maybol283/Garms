@@ -22,6 +22,7 @@ export interface ProductData {
 export interface CategoryData {
   id: number;
   category: string;
+  description?: string;
   items: ProductData[];
   filters: {
     name: string;

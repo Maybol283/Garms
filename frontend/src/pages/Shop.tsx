@@ -6,12 +6,13 @@ import { useParams, Link } from "react-router-dom";
 import Breadcrumbs from "../components/BreadCrumbs";
 import { CategoryData, ProductData } from "../interface";
 import { getCategory } from "../ApiCalls";
-import { useSpring, animated } from "@react-spring/web";
+import { useTrail, useTransition, animated } from "@react-spring/web";
 
 const products: CategoryData[] = [
   {
     id: 1,
     category: "Shirts",
+    description: "This is the shirts section",
     filters: [
       {
         id: "color",
@@ -43,6 +44,7 @@ const products: CategoryData[] = [
   {
     id: 2,
     category: "Trousers",
+    description: "This is the Trousers section",
     filters: [
       {
         id: "color",
@@ -53,7 +55,6 @@ const products: CategoryData[] = [
           { value: "blue", label: "Blue", inStock: true },
           { value: "brown", label: "Brown", inStock: true },
           { value: "green", label: "Green", inStock: true },
-          { value: "purple", label: "Purple", inStock: true },
         ],
       },
       {
@@ -64,8 +65,6 @@ const products: CategoryData[] = [
           { value: "30", label: "30", inStock: true },
           { value: "32", label: "32", inStock: true },
           { value: "34", label: "34", inStock: true },
-          { value: "36", label: "36", inStock: true },
-          { value: "38", label: "38", inStock: true },
         ],
       },
     ],
@@ -74,6 +73,7 @@ const products: CategoryData[] = [
   {
     id: 3,
     category: "Accessories",
+    description: "This is the Accessories section",
     filters: [
       {
         id: "color",
@@ -103,6 +103,7 @@ const products: CategoryData[] = [
   {
     id: 4,
     category: "Shoes",
+    description: "This is the Shoes section",
     filters: [
       {
         id: "color",
@@ -113,23 +114,17 @@ const products: CategoryData[] = [
           { value: "blue", label: "Blue", inStock: true },
           { value: "brown", label: "Brown", inStock: true },
           { value: "green", label: "Green", inStock: true },
-          { value: "purple", label: "Purple", inStock: true },
         ],
       },
       {
         id: "sizes",
         name: "Sizes",
         options: [
-          { value: "3", label: "3", inStock: true },
-          { value: "4", label: "4", inStock: true },
-          { value: "5", label: "5", inStock: true },
           { value: "6", label: "6", inStock: true },
           { value: "7", label: "7", inStock: true },
           { value: "8", label: "8", inStock: true },
           { value: "9", label: "9", inStock: true },
           { value: "10", label: "10", inStock: true },
-          { value: "11", label: "11", inStock: true },
-          { value: "12", label: "12", inStock: true },
         ],
       },
     ],
@@ -147,17 +142,12 @@ export default function Shop() {
   const [Filters, setFilters] = useState<Set<string>>(new Set());
   const [updatedProducts, setUpdatedProducts] = useState(products);
   const [loading, setLoading] = useState(true);
-  const fadeOut = useSpring({
-    from: {
-      opacity: 0,
-      y: "6%",
-    },
-    to: {
-      opacity: 1,
-      y: 0,
-    },
+  const trails = useTrail(3, {
+    from: { opacity: 0, y: 10 },
+    to: { opacity: 1, y: 0 },
+    loop: true,
+    duration: 5000,
   });
-  console.log(updatedProducts);
 
   useEffect(() => {
     async function fetchData() {
@@ -198,6 +188,19 @@ export default function Shop() {
     });
   }
 
+  function categoryDescription(category: string) {
+    switch (category) {
+      case "Shirts":
+        return "This is the shirts section";
+      case "Trousers":
+        return "This is the trousers section";
+      case "Accessories":
+        return "This is the accessories section";
+      default:
+        return "This is the shoes section";
+    }
+  }
+
   const filteredProducts =
     categoryData?.items.filter((product) => {
       const matchesSizes =
@@ -207,13 +210,16 @@ export default function Shop() {
         Filters.size === 0 ||
         (product.colors &&
           product.colors.some((color) => Filters.has(color.name)));
-      const matchesStyle =
-        Filters.size === 0 ||
-        (product.style &&
-          product.style.some((style) => Filters.has(style.name)));
 
-      return matchesSizes || matchesColors || matchesStyle;
+      return matchesSizes || matchesColors || (matchesSizes && matchesColors);
     }) || [];
+
+  const transitions = useTransition(filteredProducts, {
+    keys: (product) => product.id,
+    from: { opacity: 0, transform: "translate3d(0,-40px,0)" },
+    enter: { opacity: 1, transform: "translate3d(0,0px,0)" },
+    trail: 200,
+  });
 
   return (
     <div className="bg-palette-1">
@@ -338,8 +344,7 @@ export default function Shop() {
             </h1>
 
             <p className="mt-4 text-base text-gray-500">
-              Checkout out the latest release of Basic Tees, new and improved
-              with four openings!
+              {categoryDescription(category)}
             </p>
           </div>
 
@@ -414,15 +419,14 @@ export default function Shop() {
 
               {!loading ? (
                 <div className="transition-all ease-in-out grid grid-cols-1 gap-y-4 sm:grid-cols-2 sm:gap-x-6 sm:gap-y-10 lg:gap-x-8 xl:grid-cols-3">
-                  {filteredProducts.map((product) => (
+                  {transitions((style, product) => (
                     <Link
                       to={product.name}
                       state={{ product }}
                       key={product.id}
                     >
                       <animated.div
-                        style={fadeOut}
-                        key={product.id}
+                        style={style}
                         className="group relative flex flex-col overflow-hidden rounded-lg border border-gray-200 bg-white"
                       >
                         <div className="aspect-h-4 aspect-w-3 bg-gray-200 sm:aspect-none group-hover:opacity-75 sm:h-96">
@@ -450,9 +454,14 @@ export default function Shop() {
                   ))}
                 </div>
               ) : (
-                <h1 className="subtitle-text justify-center align-center">
-                  Loading
-                </h1>
+                <div className="flex items-center justify-center space-x-2 pt-24">
+                  {trails.map((props) => (
+                    <animated.div
+                      style={props}
+                      className="w-8 h-8 bg-palette-3 rounded-full"
+                    />
+                  ))}
+                </div>
               )}
             </section>
           </div>

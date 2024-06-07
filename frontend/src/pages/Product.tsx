@@ -11,6 +11,7 @@ import { CartItem, ProductData } from "../interface";
 import { CartContext } from "../context/CartProvider";
 import { useParams } from "react-router";
 import { getItem } from "../ApiCalls";
+import { useTrail, animated } from "@react-spring/web";
 
 const policies = [
   {
@@ -38,6 +39,12 @@ export default function Product() {
   const { category = "" } = useParams<{ category: string | undefined }>();
   const { item = "" } = useParams<{ item: string | undefined }>();
   const cart = useContext(CartContext);
+  const trails = useTrail(3, {
+    from: { opacity: 0, y: 10 },
+    to: { opacity: 1, y: 0 },
+    loop: true,
+    duration: 5000,
+  });
 
   console.log(category);
   let imageSources = product?.images.map((image) => image.imageSrc);
@@ -63,8 +70,13 @@ export default function Product() {
 
   if (loading) {
     return (
-      <div className="h-screen bg-palette-1 pt-48 m-auto title-text text-center">
-        Loading...
+      <div className="flex items-center justify-center space-x-2 py-48 h-screen">
+        {trails.map((props) => (
+          <animated.div
+            style={props}
+            className="w-8 h-8 bg-palette-3 rounded-full"
+          />
+        ))}
       </div>
     );
   }

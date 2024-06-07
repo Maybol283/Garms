@@ -29,7 +29,7 @@ export default function Checkout() {
       let stringTotal = newTotal.toFixed(2);
       setTotal(Number(stringTotal));
     }
-  }, [cart?.cartItems]);
+  }, [cart?.cartItems, total]);
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
