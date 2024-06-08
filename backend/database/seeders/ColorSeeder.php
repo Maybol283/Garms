@@ -17,7 +17,6 @@ class ColorSeeder extends Seeder
             ['name' => 'White', 'sample' => 'white'],
             ['name' => 'Brown', 'sample' => 'amber-900'],
             ['name' => 'Green', 'sample' => 'green-600'],
-
         ]);
     }
 }
