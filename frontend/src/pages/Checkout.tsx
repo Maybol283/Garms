@@ -33,6 +33,18 @@ export default function Checkout() {
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
+    alert(
+      `this is a test submission, you have ordered: ${cart?.cartItems.map(
+        (item) => {
+          return [
+            "item: " + `${item.name} `,
+            "color: " + item.color,
+            "size: " + item.size,
+            "quantity: " + item.quantity,
+          ];
+        }
+      )} The total price is: ${total}`
+    );
   };
 
   return (

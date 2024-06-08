@@ -10,7 +10,7 @@ class CreateImagesTable extends Migration
     {
         Schema::create('product_images', function (Blueprint $table) {
             $table->id();
-            $table->string('image_path');
+            $table->string('image_path', 1000);
             $table->string('image_alt');
             $table->boolean('primary')->default(false);
             $table->foreignId('product_id')->constrained('products')->onDelete('cascade');

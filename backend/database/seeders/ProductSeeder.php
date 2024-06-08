@@ -48,6 +48,42 @@ class ProductSeeder extends Seeder
                 'updated_at' => now()
             ],
             [
+                'id' => 15,
+                'name' => 'Graphic Tee',
+                'description' => 'A t-shirt with a cool graphic design',
+                'price' => 21.99,
+                'category_name' => 'Shirts',
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+            [
+                'id' => 16,
+                'name' => 'V-Neck Tee',
+                'description' => 'A comfortable V-neck t-shirt',
+                'price' => 22.49,
+                'category_name' => 'Shirts',
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+            [
+                'id' => 17,
+                'name' => 'Long Sleeve Shirt',
+                'description' => 'A versatile long sleeve shirt',
+                'price' => 28.99,
+                'category_name' => 'Shirts',
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+            [
+                'id' => 18,
+                'name' => 'Henley Shirt',
+                'description' => 'A casual Henley shirt',
+                'price' => 26.99,
+                'category_name' => 'Shirts',
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+            [
                 'id' => 21,
                 'name' => 'Running Shoes',
                 'description' => 'Comfortable running shoes',
@@ -79,6 +115,42 @@ class ProductSeeder extends Seeder
                 'name' => 'Toms',
                 'description' => 'A pair of stylish toms',
                 'price' => 85.99,
+                'category_name' => 'Shoes',
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+            [
+                'id' => 25,
+                'name' => 'Sneakers',
+                'description' => 'Comfortable everyday sneakers',
+                'price' => 45.99,
+                'category_name' => 'Shoes',
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+            [
+                'id' => 26,
+                'name' => 'Boots',
+                'description' => 'Durable and stylish boots',
+                'price' => 89.99,
+                'category_name' => 'Shoes',
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+            [
+                'id' => 27,
+                'name' => 'Loafers',
+                'description' => 'Classic loafers for everyday wear',
+                'price' => 54.99,
+                'category_name' => 'Shoes',
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+            [
+                'id' => 28,
+                'name' => 'Sandals',
+                'description' => 'Comfortable summer sandals',
+                'price' => 19.99,
                 'category_name' => 'Shoes',
                 'created_at' => now(),
                 'updated_at' => now()
@@ -120,6 +192,42 @@ class ProductSeeder extends Seeder
                 'updated_at' => now()
             ],
             [
+                'id' => 35,
+                'name' => 'Cargo Pants',
+                'description' => 'Functional cargo pants with multiple pockets',
+                'price' => 29.99,
+                'category_name' => 'Trousers',
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+            [
+                'id' => 36,
+                'name' => 'Chinos',
+                'description' => 'Stylish and versatile chinos',
+                'price' => 37.99,
+                'category_name' => 'Trousers',
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+            [
+                'id' => 37,
+                'name' => 'Joggers',
+                'description' => 'Comfortable joggers for casual wear',
+                'price' => 24.99,
+                'category_name' => 'Trousers',
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+            [
+                'id' => 38,
+                'name' => 'Corduroy Pants',
+                'description' => 'Classic corduroy pants',
+                'price' => 42.99,
+                'category_name' => 'Trousers',
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+            [
                 'id' => 41,
                 'name' => 'Hat',
                 'description' => 'A stylish hat',
@@ -155,6 +263,42 @@ class ProductSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now()
             ],
+            [
+                'id' => 45,
+                'name' => 'Scarf',
+                'description' => 'A warm and stylish scarf',
+                'price' => 15.99,
+                'category_name' => 'Accessories',
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+            [
+                'id' => 46,
+                'name' => 'Watch',
+                'description' => 'A sleek wristwatch',
+                'price' => 59.99,
+                'category_name' => 'Accessories',
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+            [
+                'id' => 47,
+                'name' => 'Bracelet',
+                'description' => 'A trendy bracelet',
+                'price' => 12.99,
+                'category_name' => 'Accessories',
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+            [
+                'id' => 48,
+                'name' => 'Backpack',
+                'description' => 'A stylish and functional backpack',
+                'price' => 29.99,
+                'category_name' => 'Accessories',
+                'created_at' => now(),
+                'updated_at' => now()
+            ]
         ]);
     }
 }

@@ -43,7 +43,7 @@ class ProductVariantFactory extends Factory
 
         return [
             'product_id' => $product->id,
-            'color_id' => $this->faker->numberBetween(1, 6),
+            'color_id' => $this->faker->numberBetween(1, 7),
             'size_id' => $this->faker->randomElement($sizes),
             'quantity' => $this->faker->numberBetween(20, 200),
         ];
