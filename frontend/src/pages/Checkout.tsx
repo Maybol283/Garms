@@ -7,6 +7,7 @@ import { LockClosedIcon } from "@heroicons/react/20/solid";
 import { useContext, useEffect, useState } from "react";
 import { CartContext } from "../context/CartProvider";
 import { Link } from "react-router-dom";
+import Footer from "../components/Footer";
 
 const discount = { code: "CHEAPSKATE", amount: 24 };
 
@@ -519,6 +520,7 @@ export default function Checkout() {
           </div>
         </section>
       </main>
+      <Footer />
     </>
   );
 }

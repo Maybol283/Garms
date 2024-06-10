@@ -5,7 +5,7 @@ interface BreadcrumbProps {
 }
 
 const Breadcrumbs: React.FC<BreadcrumbProps> = ({ margin }) => {
-  const { category, product } = useParams();
+  const { category, item } = useParams();
 
   return (
     <div className={`border-b border-gray-200 ${margin}`}>
@@ -56,14 +56,14 @@ const Breadcrumbs: React.FC<BreadcrumbProps> = ({ margin }) => {
               </div>
             </li>
           )}
-          {product && (
+          {item && (
             <li>
               <div className="flex items-center">
                 <Link
-                  to={`/Shop/${category}/${product}`}
+                  to={`/Shop/${category}/${item}`}
                   className="mr-4 text-sm font-medium text-gray-900"
                 >
-                  {product}
+                  {item}
                 </Link>
                 <svg
                   viewBox="0 0 6 20"
