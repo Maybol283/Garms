@@ -9,20 +9,25 @@ import { CartProvider } from "./context/CartProvider";
 import ShopBase from "./pages/ShopBase";
 import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
+import Footer from "./components/Footer";
 
 function App() {
   return (
     <BrowserRouter>
       <CartProvider>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/Mission" element={<Mission />} />
-          <Route path="/Cart" element={<Cart />} />
-          <Route path="/Shop" element={<ShopBase />} />
-          <Route path="/Shop/:category" element={<Shop />} />
-          <Route path="/Shop/:category/:item" element={<Product />} />
-          <Route path="/Checkout" element={<Checkout />} />
-        </Routes>
+        <Header />
+        <div className="bg-palette-1">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/Mission" element={<Mission />} />
+            <Route path="/Cart" element={<Cart />} />
+            <Route path="/Shop" element={<ShopBase />} />
+            <Route path="/Shop/:category" element={<Shop />} />
+            <Route path="/Shop/:category/:item" element={<Product />} />
+            <Route path="/Checkout" element={<Checkout />} />
+          </Routes>
+        </div>
+        <Footer />
       </CartProvider>
     </BrowserRouter>
   );

@@ -7,7 +7,6 @@ import Breadcrumbs from "../components/BreadCrumbs";
 import { CategoryData, ProductData } from "../interface";
 import { getCategory } from "../ApiCalls";
 import { useTrail, useTransition, animated } from "@react-spring/web";
-import Footer from "../components/Footer";
 
 const products: CategoryData[] = [
   {
@@ -505,7 +504,6 @@ export default function Shop() {
           </main>
         </div>
       </div>
-      <Footer />
     </>
   );
 }

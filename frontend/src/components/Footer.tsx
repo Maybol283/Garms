@@ -90,11 +90,11 @@ export default function Footer() {
   };
 
   return (
-    <footer
-      className="bg-palette-3 pt-12 overflow-hidden w-full h-screen"
-      aria-labelledby="footer-heading"
-    >
-      <div className="mx-auto max-w-7xl px-6 pb-8 pt-20 sm:pt-24 lg:px-8 lg:pt-32 overflow-hidden">
+    <footer className="bg-palette-3 pt-12" aria-labelledby="footer-heading">
+      <h2 id="footer-heading" className="sr-only">
+        Footer
+      </h2>
+      <div className="mx-auto max-w-7xl px-6 pb-8 pt-20 sm:pt-24 lg:px-8 lg:pt-32">
         <div className="xl:grid xl:grid-cols-3 xl:gap-8">
           <div className="grid grid-cols-2 gap-8 xl:col-span-2">
             <div className="md:grid md:grid-cols-2 md:gap-8">
@@ -179,7 +179,9 @@ export default function Footer() {
               weekly.
             </p>
             <form className="mt-6 sm:flex sm:max-w-md">
-              <label htmlFor="email-address">Email address</label>
+              <label htmlFor="email-address" className="sr-only">
+                Email address
+              </label>
               <input
                 type="email"
                 name="email-address"
@@ -208,11 +210,12 @@ export default function Footer() {
                 href={item.href}
                 className="text-palette-1 hover:text-gray-300"
               >
+                <span className="sr-only">{item.name}</span>
                 <item.icon className="h-6 w-6 " aria-hidden="true" />
               </a>
             ))}
           </div>
-          <p className="mt-8 text-xs leading-5 text-gray-500 md:order-1 md:mt-0">
+          <p className="mt-8 text-xs leading-5 text-palette-1 md:order-1 md:mt-0">
             &copy; 2020 Your Company, Inc. All rights reserved.
           </p>
         </div>

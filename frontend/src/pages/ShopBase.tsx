@@ -3,7 +3,6 @@ import TrousersCard from "../assets/TrousersCard.jpg";
 import ShoesCard from "../assets/ShoesCard.jpg";
 import AccessoriesCard from "../assets/AccessoriesCard.jpg";
 import { Link } from "react-router-dom";
-import Footer from "../components/Footer";
 
 let cardItems = [
   {
@@ -45,7 +44,6 @@ function ShopBase() {
           </Link>
         ))}
       </section>
-      <Footer />
     </>
   );
 }

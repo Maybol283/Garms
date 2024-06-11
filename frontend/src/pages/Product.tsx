@@ -12,7 +12,6 @@ import { CartContext } from "../context/CartProvider";
 import { useParams } from "react-router";
 import { getItem } from "../ApiCalls";
 import { useTrail, animated } from "@react-spring/web";
-import Footer from "../components/Footer";
 
 const policies = [
   {
@@ -337,7 +336,6 @@ export default function Product() {
           </div>
         </div>
       </div>
-      <Footer />
     </>
   );
 }
