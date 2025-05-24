@@ -8,7 +8,6 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-
 Route::get('/category', [InventoryController::class, 'categoryItems']);
 
 Route::get('/item', [InventoryController::class, 'Item']);

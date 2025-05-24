@@ -466,11 +466,19 @@ export default function Shop() {
                           className="group relative flex flex-col overflow-hidden rounded-lg border border-gray-200 bg-white"
                         >
                           <div className="aspect-h-4 aspect-w-3 bg-gray-200 sm:aspect-none group-hover:opacity-75 sm:h-96">
-                            <img
-                              src={product.images[0].imageSrc}
-                              alt={product.images[0].imageSrc}
-                              className="h-full w-full object-cover object-center sm:h-full sm:w-full"
-                            />
+                            {product.images && product.images.length > 0 ? (
+                              <img
+                                src={product.images[0].imageSrc}
+                                alt={product.images[0].imageAlt}
+                                className="h-full w-full object-cover object-center sm:h-full sm:w-full"
+                              />
+                            ) : (
+                              <div className="h-full w-full flex items-center justify-center bg-gray-200">
+                                <span className="text-gray-500">
+                                  No image available
+                                </span>
+                              </div>
+                            )}
                           </div>
                           <div className="flex flex-1 flex-col space-y-2 p-4">
                             <h3 className="text-sm font-medium text-gray-900">
@@ -491,8 +499,9 @@ export default function Shop() {
                   </div>
                 ) : (
                   <div className="flex items-center justify-center space-x-2 pt-24">
-                    {trails.map((props) => (
+                    {trails.map((props, index) => (
                       <animated.div
+                        key={index}
                         style={props}
                         className="w-8 h-8 bg-palette-3 rounded-full"
                       />

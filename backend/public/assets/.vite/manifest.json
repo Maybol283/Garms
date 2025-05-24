@@ -1,0 +1,53 @@
+{
+  "index.html": {
+    "file": "index.DaqCnobP.js",
+    "name": "index",
+    "src": "index.html",
+    "isEntry": true,
+    "css": [
+      "index.oYIhUJta.css"
+    ],
+    "assets": [
+      "HomePageBG.jpg",
+      "About-1.jpg",
+      "About-2.jpg",
+      "About-3.jpg",
+      "SuitsCard.jpg",
+      "TrousersCard.jpg",
+      "ShoesCard.jpg",
+      "AccessoriesCard.jpg"
+    ]
+  },
+  "src/assets/About-1.jpg": {
+    "file": "About-1.jpg",
+    "src": "src/assets/About-1.jpg"
+  },
+  "src/assets/About-2.jpg": {
+    "file": "About-2.jpg",
+    "src": "src/assets/About-2.jpg"
+  },
+  "src/assets/About-3.jpg": {
+    "file": "About-3.jpg",
+    "src": "src/assets/About-3.jpg"
+  },
+  "src/assets/AccessoriesCard.jpg": {
+    "file": "AccessoriesCard.jpg",
+    "src": "src/assets/AccessoriesCard.jpg"
+  },
+  "src/assets/HomePageBG.jpg": {
+    "file": "HomePageBG.jpg",
+    "src": "src/assets/HomePageBG.jpg"
+  },
+  "src/assets/ShoesCard.jpg": {
+    "file": "ShoesCard.jpg",
+    "src": "src/assets/ShoesCard.jpg"
+  },
+  "src/assets/SuitsCard.jpg": {
+    "file": "SuitsCard.jpg",
+    "src": "src/assets/SuitsCard.jpg"
+  },
+  "src/assets/TrousersCard.jpg": {
+    "file": "TrousersCard.jpg",
+    "src": "src/assets/TrousersCard.jpg"
+  }
+}

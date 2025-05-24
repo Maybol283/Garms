@@ -16,7 +16,7 @@ const Home: React.FC = () => {
           </Link>
           <img
             className="object-cover w-full h-full object-[center_5%]"
-            src={HomeBg}
+            src={`/assets/${HomeBg.split("/").pop()}`}
             alt="Home Background"
           />
         </div>

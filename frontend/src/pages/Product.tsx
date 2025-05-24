@@ -47,18 +47,22 @@ export default function Product() {
   });
 
   console.log(category);
-  let imageSources = product?.images.map((image) => image.imageSrc);
+  let imageSources = product?.images?.map((image) => image.imageSrc) || [];
 
   useEffect(() => {
     async function fetchData() {
       try {
         let response = await getItem(item);
-        setProduct(response[0]);
-        console.log(response[0]);
-        setSelectedColor(response[0].colors[0]?.name);
-        setSelectedSize(
-          response[0].sizes.find((size) => size.inStock)?.name ?? ""
-        );
+        if (response && response.length > 0) {
+          setProduct(response[0]);
+          console.log(response[0]);
+          setSelectedColor(response[0].colors?.[0]?.name || "");
+          setSelectedSize(
+            response[0].sizes?.find((size) => size.inStock)?.name || ""
+          );
+        } else {
+          setError("Product not found.");
+        }
         setLoading(false);
       } catch (error) {
         console.error("Error fetching item:", error);
@@ -73,8 +77,9 @@ export default function Product() {
   if (loading) {
     return (
       <div className="flex items-center justify-center space-x-2 py-48 h-screen">
-        {trails.map((props) => (
+        {trails.map((props, index) => (
           <animated.div
+            key={index}
             style={props}
             className="w-8 h-8 bg-palette-3 rounded-full"
           />
@@ -93,6 +98,11 @@ export default function Product() {
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
+
+    if (!product || !product.images || product.images.length === 0) {
+      console.error("Product or images not available");
+      return;
+    }
 
     const productToAdd: CartItem = {
       id: product.id + " " + selectedColor + " ",

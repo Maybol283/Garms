@@ -6,19 +6,19 @@ import { Link } from "react-router-dom";
 
 let cardItems = [
   {
-    src: SuitsCard,
+    src: `/assets/${SuitsCard.split("/").pop()}`,
     alt: "Shirts",
   },
   {
-    src: TrousersCard,
+    src: `/assets/${TrousersCard.split("/").pop()}`,
     alt: "Trousers",
   },
   {
-    src: ShoesCard,
+    src: `/assets/${ShoesCard.split("/").pop()}`,
     alt: "Shoes",
   },
   {
-    src: AccessoriesCard,
+    src: `/assets/${AccessoriesCard.split("/").pop()}`,
     alt: "Accessories",
   },
 ];

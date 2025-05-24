@@ -13,7 +13,7 @@ or unique statement pieces that make you stand out in a crowd,
 we've got you covered. Each item in our collection is selected
 with the utmost attention to detail and quality, ensuring that you
 look and feel your best every time you step out.`,
-    image: AboutImg1,
+    image: `/assets/${AboutImg1.split("/").pop()}`,
   },
   {
     id: 2,
@@ -23,7 +23,7 @@ that not only enhance your style but also boost your confidence.
 Our carefully curated collection is designed to feature the latest
 fashion trends as well as timeless classics, ensuring that there
 is something to suit every individual's taste and occasion.`,
-    image: AboutImg2,
+    image: `/assets/${AboutImg2.split("/").pop()}`,
   },
   {
     id: 3,
@@ -33,7 +33,7 @@ personal style and meets your needs, no matter the event or
 setting. From everyday essentials to special occasion outfits,
 Garms is your go-to destination for fashion that inspires
 confidence and makes a lasting impression.`,
-    image: AboutImg3,
+    image: `/assets/${AboutImg3.split("/").pop()}`,
   },
 ];
 

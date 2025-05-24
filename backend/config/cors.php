@@ -15,13 +15,25 @@ return [
     |
     */
 
-    'paths' => ['api/*', 'sanctum/csrf-cookie'],
+    'paths' => ['/api/*', 'sanctum/csrf-cookie'],
 
-    'allowed_methods' => ['*'],
+    'allowed_methods' => ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
 
-    'allowed_origins' => ['*'],
+    'allowed_origins' => [
+        'http://localhost:5173',     // Local Vite dev server
+        'http://localhost:8000',     // Local Laravel server
+        'http://127.0.0.1:8000',     // Local IP address
+        'http://127.0.0.1:5173',     // Local IP address for Vite
+        'http://localhost:3000',     // Alternative local port
+        'http://127.0.0.1:3000',     // Alternative local IP
+        env('FRONTEND_URL', ''),     // Production frontend URL
+    ],
 
-    'allowed_origins_patterns' => [],
+    'allowed_origins_patterns' => [
+        // Allow any localhost port for development
+        '/^http:\/\/localhost:\d+$/',
+        '/^http:\/\/127\.0\.0\.1:\d+$/',
+    ],
 
     'allowed_headers' => ['*'],
 
@@ -29,6 +41,6 @@ return [
 
     'max_age' => 0,
 
-    'supports_credentials' => false,
+    'supports_credentials' => true,
 
 ];
